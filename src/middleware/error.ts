@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express';
-
 import { ApiError } from '../types';
 
 const notFoundHandler = (_req: Request, res: Response) => {
@@ -13,27 +12,29 @@ const notFoundHandler = (_req: Request, res: Response) => {
 
 const errorHandler = (
   err: Error | ApiError,
-  _req: Request,
+  req: Request,
   res: Response,
   next: NextFunction
 ) => {
+  const statusCode = 'statusCode' in err ? err.statusCode : 500;
+
   console.error({
     message: err.message,
     stack: err.stack,
     name: err.name,
-    statusCode: 'statusCode' in err ? err.statusCode : 500,
+    statusCode,
+    requestPath: req.path,
+    requestBody: req.body,
+    requestQuery: req.query,
   });
 
-  // Prevent "Cannot set headers after they are sent" error
-  // This happens if response headers were already sent (e.g. streaming response or multiple handlers)
-  // Pass to next error handler instead of attempting another response
   if (res.headersSent) {
     return next(err);
   }
 
-  res.status(500).json({
+  res.status(statusCode).json({
     error: {
-      message: 'Internal Server Error',
+      message: statusCode === 500 ? 'Internal Server Error' : err.message,
       timestamp: new Date().toISOString(),
     },
   });

@@ -9,6 +9,13 @@ const validateBody = (schema: z.ZodSchema) => {
       next();
     } catch (error) {
       if (error instanceof z.ZodError) {
+        console.error({
+          message: 'Invalid message format',
+          details: error.errors,
+          statusCode: 400,
+          requestPath: req.path,
+          stack: error.stack,
+        });
         res.status(400).json({
           error: 'Invalid message format',
           details: error.errors,
@@ -28,6 +35,13 @@ const validateQuery = (schema: z.ZodSchema) => {
       next();
     } catch (error) {
       if (error instanceof z.ZodError) {
+        console.error({
+          message: 'Invalid query parameters',
+          details: error.errors,
+          statusCode: 400,
+          requestPath: req.path,
+          stack: error.stack,
+        });
         res.status(400).json({
           error: 'Invalid query parameters',
           details: error.errors,

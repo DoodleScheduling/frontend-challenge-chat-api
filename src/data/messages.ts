@@ -10,7 +10,7 @@ export const initialMessages: Message[] = [
   },
   {
     id: randomUUID(),
-    message: 'Cool! It was super easy to vote.',
+    message: 'Cool! It&#39;s super easy to vote.',
     author: 'Mike',
     timestamp: new Date(Date.now() - 4000).toISOString(),
   },
