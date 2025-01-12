@@ -52,18 +52,11 @@ const createMessageSchema = z.object({
 
 const getMessagesQuerySchema = z.object({
   limit: z
-    .string()
+    .union([z.string().regex(/^\d+$/).transform(Number), z.number()])
     .optional()
-    .refine((val) => !val || /^\d+$/.test(val), 'Limit must be a valid number')
-    .transform((val) => (val ? Number(val) : undefined))
-    .pipe(
-      z
-        .number()
-        .optional()
-        .refine(
-          (val) => val === undefined || val > 0,
-          'Limit must be greater than 0'
-        )
+    .refine(
+      (val) => val === undefined || val > 0,
+      'Limit must be greater than 0'
     ),
   since: z.string().datetime('Invalid timestamp format').optional(),
 });
