@@ -11,7 +11,7 @@ As part of the challenge, you'll be building a chat interface that connects to t
 This API provides the core functionality you'll need:
 
 - Fetching existing chat messages
-- Creating new messages
+- Creating new messages  
 - Real time message updates
 
 The API comes with:
@@ -45,14 +45,22 @@ Install Docker for your operating system by following the [official installation
 
 1. Open a terminal/command prompt
 
-2. Run the API (this will build the image and start the container):
+2. Run the API (this will stop any existing container, build if needed, and start the API):
 
    ```bash
    npm run docker
    ```
 
+   The API will start in the foreground.
+
+   Additional Docker commands:
+   ```bash
+   npm run docker:build   # Rebuild the API container
+   npm run docker:clean   # Clean up containers, images, and volumes
+   ```
+
 3. Verify the API is running by visiting:
-   - API Documentation: http://localhost:3000/api/v1/docs
+   - API Documentation: http://localhost:3000/api/v1/docs  
    - Health Check: http://localhost:3000/health
 
 ## API Documentation
@@ -91,7 +99,7 @@ Health check endpoint returning API status.
 ### Technical Details
 
 - Built with Node.js and Express
-- Written in TypeScript
+- Written in TypeScript  
 - Uses in memory storage for messages (no database required)
 - Includes request validation with detailed error logging
 - CORS enabled for frontend development
@@ -134,7 +142,7 @@ npm run dev
 The development server will start on http://localhost:3000 with:
 
 - Automatic reloading when files change
-- Detailed debugging information
+- Detailed debugging information  
 - Enhanced error messages
 
 #### If you prefer to run optimized production build:
@@ -159,11 +167,11 @@ Docker issues:
 
 - If the container won't start, try:
   ```bash
-  docker logs chat-api
+  docker compose logs
   ```
 - If you need to stop the container:
   ```bash
-  docker stop chat-api
+  npm run docker:down
   ```
 - If port 3000 is already in use:
 
@@ -174,11 +182,11 @@ Docker issues:
   lsof -i :3000
 
   # Windows
-  netstat -ano | findstr :3000  # On Windows
+  netstat -ano | findstr :3000
 
   # Then either:
   # 1. Stop the conflicting process, or
-  # 2. Change the port mapping in the docker run command to use a different port
+  # 2. Change the port in docker-compose.yml to use a different port
   ```
 
 Local development issues:
@@ -203,7 +211,7 @@ Local development issues:
 
 - If the development server crashes:
 
-  ```bash
+  ```bash 
   # Clear node_modules and reinstall
 
   # Unix/Mac
