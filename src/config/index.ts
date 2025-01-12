@@ -18,3 +18,4 @@ const CONFIG = {
 
 export { CONFIG };
 export { SWAGGER_DOCUMENT } from './swagger';
+export { VALIDATION_CONFIG } from './validation';

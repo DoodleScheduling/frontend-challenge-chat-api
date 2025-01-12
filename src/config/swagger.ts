@@ -1,4 +1,5 @@
-import { CONFIG } from './';
+import { CONFIG } from './index';
+import { VALIDATION_CONFIG } from './validation';
 
 const SWAGGER_DOCUMENT = {
   openapi: '3.0.0',
@@ -56,9 +57,21 @@ const SWAGGER_DOCUMENT = {
                 example: [
                   {
                     id: '123e4567-e89b-12d3-a456-426614174000',
-                    message: 'Hello world',
-                    author: 'John Doe',
+                    message: 'Grüezi mitenand',
+                    author: 'Hans Müller',
                     timestamp: '2024-01-12T10:30:00Z',
+                  },
+                  {
+                    id: '123e4567-e89b-12d3-a456-426614174001',
+                    message: 'Hallo zäme',
+                    author: 'Fritz Meier',
+                    timestamp: '2024-01-12T10:35:00Z',
+                  },
+                  {
+                    id: '123e4567-e89b-12d3-a456-426614174002',
+                    message: 'Salut tout le monde',
+                    author: 'Marie Dubois',
+                    timestamp: '2024-01-12T10:40:00Z',
                   },
                 ],
               },
@@ -76,7 +89,25 @@ const SWAGGER_DOCUMENT = {
                       param: 'since',
                       location: 'query',
                     },
+                    {
+                      msg: 'Limit must be a positive integer',
+                      param: 'limit',
+                      location: 'query',
+                    },
                   ],
+                },
+              },
+            },
+          },
+          '500': {
+            description: 'Internal Server Error',
+            content: {
+              'application/json': {
+                example: {
+                  error: {
+                    message: 'Internal Server Error',
+                    timestamp: '2024-01-12T10:30:00Z',
+                  },
                 },
               },
             },
@@ -96,14 +127,16 @@ const SWAGGER_DOCUMENT = {
                 properties: {
                   message: {
                     type: 'string',
-                    maxLength: 500,
-                    example: 'Message text',
+                    minLength: VALIDATION_CONFIG.message.minLength,
+                    maxLength: VALIDATION_CONFIG.message.maxLength,
+                    example: 'Grüezi mitenand',
                   },
                   author: {
                     type: 'string',
-                    maxLength: 50,
+                    minLength: VALIDATION_CONFIG.author.minLength,
+                    maxLength: VALIDATION_CONFIG.author.maxLength,
                     pattern: '^[a-zA-Z0-9\\s-_]+$',
-                    example: 'Jane Doe',
+                    example: 'Hans Müller',
                   },
                 },
               },
@@ -117,8 +150,8 @@ const SWAGGER_DOCUMENT = {
               'application/json': {
                 example: {
                   id: '123e4567-e89b-12d3-a456-426614174000',
-                  message: 'Message text',
-                  author: 'Jane Doe',
+                  message: 'Grüezi mitenand',
+                  author: 'Hans Müller',
                   timestamp: '2024-01-12T10:30:00Z',
                 },
               },
@@ -132,11 +165,29 @@ const SWAGGER_DOCUMENT = {
                   error: 'Invalid message format',
                   details: [
                     {
-                      msg: 'Message cannot exceed 500 characters',
+                      msg: `Message cannot exceed ${VALIDATION_CONFIG.message.maxLength} characters`,
                       param: 'message',
                       location: 'body',
                     },
+                    {
+                      msg: 'Author name contains invalid characters',
+                      param: 'author',
+                      location: 'body',
+                    },
                   ],
+                },
+              },
+            },
+          },
+          '500': {
+            description: 'Internal Server Error',
+            content: {
+              'application/json': {
+                example: {
+                  error: {
+                    message: 'Internal Server Error',
+                    timestamp: '2024-01-12T10:30:00Z',
+                  },
                 },
               },
             },

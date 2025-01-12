@@ -1,10 +1,10 @@
 import { randomUUID } from 'crypto';
 import { Message, CreateMessageBody } from '../../types';
 import { CONFIG } from '../../config';
-import { initialMessages } from '../../data/messages';
+import { INITIAL_MESSAGES } from '../../data/messages';
 
 // Store messages in memory, in real world scenario this should be a database
-const messages: Message[] = [...initialMessages];
+const messages: Message[] = [...INITIAL_MESSAGES];
 
 const messagesService = {
   createMessage(data: CreateMessageBody): Message {
