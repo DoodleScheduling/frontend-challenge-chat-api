@@ -1,12 +1,13 @@
-import { Application } from 'express';
+import { Application, json } from 'express';
 import cors from 'cors';
 import compression from 'compression';
-import express from 'express';
+import helmet from 'helmet';
 
 import { CONFIG } from '../config';
 import { timeoutHandler } from '../middleware/timeout';
 
 const setupMiddleware = (app: Application): void => {
+  app.use(helmet());
   app.use(
     cors({
       origin: CONFIG.cors.origin,
@@ -14,7 +15,7 @@ const setupMiddleware = (app: Application): void => {
     })
   );
   app.use(compression());
-  app.use(express.json());
+  app.use(json());
   app.use(timeoutHandler);
 };
 

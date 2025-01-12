@@ -4,7 +4,7 @@ import { ApiError } from '../types';
 import { CONFIG } from '../config';
 
 const timeoutHandler = (
-  req: Request,
+  _req: Request,
   res: Response,
   next: NextFunction
 ): void => {
