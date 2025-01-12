@@ -31,7 +31,7 @@ export default [
       'no-console': 'off',
       'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
 
-      // TypeScript specific
+      // TypeScript specific rules
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-unused-vars': [
         'warn',
@@ -39,7 +39,7 @@ export default [
       ],
       '@typescript-eslint/explicit-function-return-type': 'off',
 
-      // General code quality
+      // General code quality rules
       'no-unused-vars': 'off', // TypeScript handles this
       'prefer-const': 'error',
       'no-var': 'error',
