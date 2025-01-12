@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { validateBody, validateQuery } from '../../middleware/validation';
+import { validateBody, validateQuery } from './validation';
 import { createMessageSchema, getMessagesQuerySchema } from '../../schemas';
 import { messagesController } from './messages.controller';
 
