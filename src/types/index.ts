@@ -1,16 +1,18 @@
-export interface Message {
+interface Message {
   id: string;
   message: string;
   author: string;
   timestamp: string; // ISO 8601
 }
 
-export interface GetMessagesQuery {
+interface GetMessagesQuery {
   limit?: string;
   since?: string;
 }
 
-export interface CreateMessageBody {
+interface CreateMessageBody {
   message: string;
   author: string;
 }
+
+export { Message, GetMessagesQuery, CreateMessageBody };

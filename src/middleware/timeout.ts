@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 
-export const timeoutHandler = (
+const timeoutHandler = (
   _req: Request,
   res: Response,
   next: NextFunction
@@ -15,3 +15,5 @@ export const timeoutHandler = (
   });
   next();
 };
+
+export { timeoutHandler };

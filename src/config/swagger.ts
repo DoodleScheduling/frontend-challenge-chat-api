@@ -1,7 +1,6 @@
-import { CONFIG } from './config';
-import { API_ROUTE } from './constants';
+import { CONFIG } from './';
 
-const swaggerDocument = {
+const SWAGGER_DOCUMENT = {
   openapi: '3.0.0',
   info: {
     title: "Doodle's Chat API",
@@ -10,8 +9,8 @@ const swaggerDocument = {
   },
   servers: [
     {
-      url: `http://localhost:${CONFIG.port}${API_ROUTE}`,
-      description: 'Development server',
+      url: `${CONFIG.api.url}${CONFIG.api.route}`,
+      description: `${CONFIG.env} server`,
     },
   ],
   tags: [
@@ -43,7 +42,7 @@ const swaggerDocument = {
             schema: {
               type: 'integer',
               minimum: 1,
-              default: 50,
+              default: CONFIG.api.defaultMessagesLimit,
             },
             required: false,
             description: 'Max messages to return',
@@ -146,6 +145,6 @@ const swaggerDocument = {
       },
     },
   },
-};
+} as const;
 
-export { swaggerDocument };
+export { SWAGGER_DOCUMENT };

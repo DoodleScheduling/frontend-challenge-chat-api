@@ -1,3 +1,5 @@
 import morgan from 'morgan';
 
-export const requestLogger = morgan('tiny');
+const requestLogger = morgan('tiny');
+
+export { requestLogger };
