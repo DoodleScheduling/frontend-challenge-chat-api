@@ -12,6 +12,7 @@ const CONFIG = {
     url: `${env.API_URL}:${env.PORT}`,
     route: `/api/${env.API_VERSION}`,
     defaultMessagesLimit: env.DEFAULT_MESSAGES_LIMIT,
+    timeoutErrorDelay: 15000, // 15 seconds
   },
 } as const;
 

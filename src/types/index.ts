@@ -15,4 +15,8 @@ interface CreateMessageBody {
   author: string;
 }
 
-export { Message, GetMessagesQuery, CreateMessageBody };
+interface ApiError extends Error {
+  statusCode: number;
+}
+
+export { Message, GetMessagesQuery, CreateMessageBody, ApiError };

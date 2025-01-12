@@ -1,4 +1,5 @@
 import express, { Application } from 'express';
+
 import { setupMiddleware } from './middleware';
 import { setupRoutes } from './routes';
 import { setupErrorHandlers } from './error';
