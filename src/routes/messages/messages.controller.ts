@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
+
 import { Message, CreateMessageBody, GetMessagesQuery } from '../../types';
+import { createMessageSchema, getMessagesQuerySchema } from '../../schemas';
 import { messagesService } from './messages.service';
 
 const messagesController = {
@@ -9,7 +11,8 @@ const messagesController = {
     next: NextFunction
   ): void {
     try {
-      const newMessage = messagesService.createMessage(req.body);
+      const validatedData = createMessageSchema.parse(req.body);
+      const newMessage = messagesService.createMessage(validatedData);
       res.status(201).json(newMessage);
     } catch (err) {
       next(err);
@@ -22,8 +25,11 @@ const messagesController = {
     next: NextFunction
   ): void {
     try {
-      const { limit, since } = req.query;
-      const messages = messagesService.getMessages(limit, since);
+      const validatedQuery = getMessagesQuerySchema.parse(req.query);
+      const messages = messagesService.getMessages(
+        validatedQuery.limit,
+        validatedQuery.since
+      );
       res.status(200).json(messages);
     } catch (err) {
       next(err);

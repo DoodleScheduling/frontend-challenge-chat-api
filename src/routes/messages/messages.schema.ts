@@ -1,8 +1,9 @@
 import { z } from 'zod';
-import { CreateMessageBody, GetMessagesQuery } from '../../types';
-import { VALIDATION_CONFIG } from '../../config';
 
-const createMessageSchema = z.object({
+import { VALIDATION_CONFIG } from '../../config';
+import { createMessageSchema } from '../../schemas';
+
+const validatedCreateMessageSchema = createMessageSchema.extend({
   message: z
     .string()
     .trim()
@@ -20,11 +21,6 @@ const createMessageSchema = z.object({
       `Author name cannot exceed ${VALIDATION_CONFIG.author.maxLength} characters`
     )
     .regex(/^[a-zA-Z0-9\s-_]+$/, 'Author name contains invalid characters'),
-}) satisfies z.ZodType<CreateMessageBody>;
+});
 
-const getMessagesQuerySchema = z.object({
-  limit: z.string().optional(),
-  since: z.string().datetime('Invalid timestamp format').optional(),
-}) satisfies z.ZodType<GetMessagesQuery>;
-
-export { createMessageSchema, getMessagesQuerySchema };
+export { validatedCreateMessageSchema };

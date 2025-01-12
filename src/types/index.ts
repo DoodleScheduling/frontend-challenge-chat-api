@@ -1,22 +1,15 @@
-interface Message {
-  id: string;
-  message: string;
-  author: string;
-  timestamp: string; // ISO 8601
-}
+import { z } from 'zod';
 
-interface GetMessagesQuery {
-  limit?: string;
-  since?: string;
-}
+import {
+  messageSchema,
+  createMessageSchema,
+  getMessagesQuerySchema,
+  apiErrorSchema,
+} from '../schemas';
 
-interface CreateMessageBody {
-  message: string;
-  author: string;
-}
+type Message = z.infer<typeof messageSchema>;
+type CreateMessageBody = z.infer<typeof createMessageSchema>;
+type GetMessagesQuery = z.infer<typeof getMessagesQuerySchema>;
+type ApiError = z.infer<typeof apiErrorSchema>;
 
-interface ApiError extends Error {
-  statusCode: number;
-}
-
-export { Message, GetMessagesQuery, CreateMessageBody, ApiError };
+export type { Message, CreateMessageBody, GetMessagesQuery, ApiError };
