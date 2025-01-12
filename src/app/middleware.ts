@@ -16,7 +16,7 @@ const setupMiddleware = (app: Application): void => {
     })
   );
   app.use(compression());
-  app.use(express.json({ limit: '10kb' }));
+  app.use(express.json());
   app.use(timeoutHandler);
 };
 
