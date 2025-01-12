@@ -10,7 +10,7 @@ As part of the challenge, you'll be building a chat interface that connects to t
 
 This API provides the core functionality you'll need:
 
-- Fetching existing chat messages
+- Fetching existing chat messages  
 - Creating new messages
 - Real time message updates
 
@@ -33,7 +33,7 @@ To begin the challenge:
 
 ### Prerequisites
 
-#### Installing Docker
+#### Docker
 
 Install Docker for your operating system by following the [official installation guides](https://docs.docker.com/).
 
@@ -47,7 +47,12 @@ Install Docker for your operating system by following the [official installation
 
 1. Open a terminal/command prompt
 
-2. Start the API:
+2. Build the Docker image:
+   ```bash
+   docker build -t chat-api .
+   ```
+
+3. Start the API:
    ```bash
    docker compose up
    ```
@@ -71,7 +76,8 @@ Install Docker for your operating system by following the [official installation
 
 ### Prerequisites
 
-Install Node.js 20 or higher by downloading it from https://nodejs.org.
+#### Node.js
+Install Node.js v20 or higher by downloading it from https://nodejs.org.
 
 ### Setup and Installation
 
