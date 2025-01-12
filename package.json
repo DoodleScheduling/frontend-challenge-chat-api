@@ -10,9 +10,11 @@
   "type": "commonjs",
   "main": "dist/server.js",
   "scripts": {
-    "prebuild": "npm run format-check",
+    "prebuild": "npm run clean && npm run format-check",
     "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
+    "clean": "rm -rf dist",
     "dev": "nodemon -r tsconfig-paths/register src/server.ts",
+    "docker": "docker rm -f chat-api || true && docker build -t chat-api . && docker run -p 3000:3000 --name chat-api chat-api",
     "docker:build": "docker build -t chat-api .",
     "docker:run": "docker run -p 3000:3000 chat-api",
     "format-check": "npm run prettier:check && npm run lint",
@@ -49,5 +51,8 @@
     "tsconfig-paths": "4.2.0",
     "typescript": "5.7.3",
     "typescript-eslint": "8.19.1"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

@@ -13,9 +13,19 @@ const logStartupInfo = () => {
   console.log(`💚 Health check: http://localhost:${port}/health`);
 };
 
-const handleGracefulShutdown = () => {
-  console.log('🛑 Received SIGTERM signal. Shutting down gracefully...');
+const handleGracefulShutdown = (signal: string) => {
+  console.log(`\n🛑 Received ${signal} signal. Shutting down gracefully...`);
+
+  // Add a timeout to force exit if graceful shutdown takes too long
+  const forceShutdownTimeout = setTimeout(() => {
+    console.log(
+      '\u26A0\uFE0F Server failed to close in time, forcing shutdown'
+    );
+    process.exit(1);
+  }, 5000);
+
   server.close(() => {
+    clearTimeout(forceShutdownTimeout);
     console.log('💤 Server shut down successfully');
     process.exit(0);
   });
@@ -23,4 +33,6 @@ const handleGracefulShutdown = () => {
 
 const server = app.listen(port, logStartupInfo);
 
-process.on('SIGTERM', handleGracefulShutdown);
+['SIGTERM', 'SIGINT'].forEach((signal) => {
+  process.on(signal, () => handleGracefulShutdown(signal));
+});

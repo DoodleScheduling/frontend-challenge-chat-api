@@ -18,7 +18,7 @@ The API comes with:
 
 - Full Swagger documentation for easy exploration
 - Built in CORS support for local development
-- Error handling and validation
+- Error handling and validation with detailed logging
 - Docker containerization for consistent behavior
 
 ### Getting Started
@@ -45,19 +45,13 @@ Install Docker for your operating system by following the [official installation
 
 1. Open a terminal/command prompt
 
-2. Build the Docker image:
+2. Run the API (this will build the image and start the container):
 
    ```bash
-   npm run docker:build
+   npm run docker
    ```
 
-3. Run the container:
-
-   ```bash
-   npm run docker:run
-   ```
-
-4. Verify the API is running by visiting:
+3. Verify the API is running by visiting:
    - API Documentation: http://localhost:3000/api/v1/docs
    - Health Check: http://localhost:3000/health
 
@@ -99,44 +93,124 @@ Health check endpoint returning API status.
 - Built with Node.js and Express
 - Written in TypeScript
 - Uses in memory storage for messages (no database required)
-- Includes request validation
+- Includes request validation with detailed error logging
 - CORS enabled for frontend development
-- Error handling
-- Docker support for easy deployment
+- Error handling with detailed logging
 
-## Additional information
+## Additional Information
 
 1. The API runs in a container, ensuring consistent behavior across different environments
 2. Messages are stored in memory, so data will reset when the container restarts
-3. The API includes standard security headers and CORS configuration
-4. Swagger documentation provides interactive API testing capabilities
+3. Swagger documentation provides interactive API testing capabilities
 
 ## Local Development (Without Docker)
 
-If you prefer to run the API locally:
+### Prerequisites
 
-1. Install dependencies:
+- Node.js 20 or higher
+
+### Setup and Installation
+
+1. Set up environment variables:
+
+```bash
+cp .env.example .env
+```
+
+2. Install dependencies:
 
 ```bash
 npm install
 ```
 
-2. Start development server:
+### Running the API
+
+For development (with hot-reload):
 
 ```bash
 npm run dev
 ```
 
-OR
+The development server will start on http://localhost:3000 with:
 
-1. Build for production:
+- Automatic reloading when files change
+- Detailed debugging information
+- Enhanced error messages
+
+#### If you prefer to run optimized production build:
+
+1. Build the TypeScript code:
 
 ```bash
 npm run build
 ```
 
-2. Start production server:
+2. Start the production server:
 
 ```bash
 npm start
 ```
+
+The production server will run with optimized settings at http://localhost:3000
+
+### Troubleshooting
+
+Docker issues:
+
+- If the container won't start, try:
+  ```bash
+  docker logs chat-api
+  ```
+- If you need to stop the container:
+  ```bash
+  docker stop chat-api
+  ```
+- If port 3000 is already in use:
+
+  ```bash
+  # Check what's using the port
+
+  # Unix/Mac
+  lsof -i :3000
+
+  # Windows
+  netstat -ano | findstr :3000  # On Windows
+
+  # Then either:
+  # 1. Stop the conflicting process, or
+  # 2. Change the port mapping in the docker run command to use a different port
+  ```
+
+Local development issues:
+
+- If you have dependency issues:
+
+  ```bash
+  npm clean-install
+  ```
+
+- If TypeScript build fails:
+
+  ```bash
+  # Unix/Mac
+  rm -rf dist/
+  npm run build
+
+  # Windows
+  rd /s /q dist
+  npm run build
+  ```
+
+- If the development server crashes:
+
+  ```bash
+  # Clear node_modules and reinstall
+
+  # Unix/Mac
+  rm -rf node_modules/
+  npm install
+
+  # Windows
+  rd /s /q node_modules
+  npm install
+  ```
