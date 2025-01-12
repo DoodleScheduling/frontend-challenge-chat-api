@@ -1,8 +1,18 @@
 {
   "name": "frontend-challenge-chat-api",
   "version": "1.0.0",
+  "private": true,
   "description": "API for the Doodle frontend challenge",
-  "license": "UNLICENSED",
+  "keywords": [
+    "doodle",
+    "chat-api",
+    "frontend-challenge"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/doodle/frontend-challenge-chat-api.git"
+  },
+  "license": "PROPRIETARY",
   "author": {
     "name": "Doodle AG",
     "url": "https://doodle.com"
@@ -17,12 +27,18 @@
     "docker": "docker rm -f chat-api || true && docker build -t chat-api . && docker run -p 3000:3000 --name chat-api chat-api",
     "docker:build": "docker build -t chat-api .",
     "docker:run": "docker run -p 3000:3000 chat-api",
+    "docker:stop": "docker rm -f chat-api",
     "format-check": "npm run prettier:check && npm run lint",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "prepare": "npm run build",
     "prettier": "prettier --write \"src/**/*.ts\"",
     "prettier:check": "prettier --check \"src/**/*.ts\"",
-    "start": "node dist/server.js"
+    "serve": "node dist/server.js",
+    "start": "node dist/server.js",
+    "start:dev": "NODE_ENV=development npm run dev",
+    "start:prod": "NODE_ENV=production npm run start",
+    "test": "echo \"No tests specified\""
   },
   "dependencies": {
     "compression": "1.7.5",
@@ -53,6 +69,7 @@
     "typescript-eslint": "8.19.1"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=20",
+    "npm": ">=10"
   }
 }

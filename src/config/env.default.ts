@@ -1,7 +1,7 @@
 const DEFAULT_CONFIG = {
   api: {
     version: 'v1',
-    url: 'http://localhost',
+    url: 'https://localhost',
     messagesLimit: 50,
   },
   app: {

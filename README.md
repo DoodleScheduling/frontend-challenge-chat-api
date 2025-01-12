@@ -214,3 +214,7 @@ Local development issues:
   rd /s /q node_modules
   npm install
   ```
+
+## License
+
+Copyright (c) 2024 Doodle AG. All rights reserved.
