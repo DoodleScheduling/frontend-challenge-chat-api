@@ -4,14 +4,14 @@ Welcome to the Doodle Frontend Challenge! This repository contains a simple chat
 
 ## Overview
 
-As part of the challenge, you'll be building a chat interface that connects to this API. We've provided a containerized backend to ensure you can focus entirely on the frontend implementation without worrying about server side complexities.
+As part of the challenge, you'll be building a chat interface that connects to this API. Here we've provided a containerized backend to ensure you can focus entirely on the frontend implementation without worrying about server side complexities.
 
 ### What's Included
 
 This API provides the core functionality you'll need:
 
 - Fetching existing chat messages
-- Creating new messages  
+- Creating new messages
 - Real time message updates
 
 The API comes with:
@@ -54,13 +54,14 @@ Install Docker for your operating system by following the [official installation
    The API will start in the foreground.
 
    Additional Docker commands:
+
    ```bash
    npm run docker:build   # Rebuild the API container
    npm run docker:clean   # Clean up containers, images, and volumes
    ```
 
 3. Verify the API is running by visiting:
-   - API Documentation: http://localhost:3000/api/v1/docs  
+   - API Documentation: http://localhost:3000/api/v1/docs
    - Health Check: http://localhost:3000/health
 
 ## API Documentation
@@ -87,8 +88,8 @@ Request Body:
 
 ```json
 {
-  "message": "Hello world",
-  "author": "John Doe"
+  "message": "Grüezi mitenand",
+  "author": "Hans Müller"
 }
 ```
 
@@ -99,11 +100,10 @@ Health check endpoint returning API status.
 ### Technical Details
 
 - Built with Node.js and Express
-- Written in TypeScript  
+- Written in TypeScript
 - Uses in memory storage for messages (no database required)
 - Includes request validation with detailed error logging
 - CORS enabled for frontend development
-- Error handling with detailed logging
 
 ## Additional Information
 
@@ -113,6 +113,8 @@ Health check endpoint returning API status.
 
 ## Local Development (Without Docker)
 
+If you prefer to run it locally without docker.
+
 ### Prerequisites
 
 - Node.js 20 or higher
@@ -121,15 +123,18 @@ Health check endpoint returning API status.
 
 1. Set up environment variables:
 
-```bash
-cp .env.example .env
-```
+   ```bash
+   # Unix/Mac
+   cp .env.example .env
+   # Windows
+   copy .env.example .env
+   ```
 
 2. Install dependencies:
 
-```bash
-npm install
-```
+   ```bash
+   npm install
+   ```
 
 ### Running the API
 
@@ -142,36 +147,36 @@ npm run dev
 The development server will start on http://localhost:3000 with:
 
 - Automatic reloading when files change
-- Detailed debugging information  
+- Detailed debugging information
 - Enhanced error messages
 
 #### If you prefer to run optimized production build:
 
 1. Build the TypeScript code:
 
-```bash
-npm run build
-```
+   ```bash
+   npm run build
+   ```
 
 2. Start the production server:
 
-```bash
-npm start
-```
+   ```bash
+   npm start
+   ```
 
 The production server will run with optimized settings at http://localhost:3000
 
 ### Troubleshooting
 
-Docker issues:
+#### Docker issues:
 
 - If the container won't start, try:
   ```bash
   docker compose logs
   ```
-- If you need to stop the container:
+- If you need to clean up the containers:
   ```bash
-  npm run docker:down
+  npm run docker:clean
   ```
 - If port 3000 is already in use:
 
@@ -189,38 +194,32 @@ Docker issues:
   # 2. Change the port in docker-compose.yml to use a different port
   ```
 
-Local development issues:
+#### Local development issues:
 
 - If you have dependency issues:
 
   ```bash
-  npm clean-install
+  # Clear node_modules and reinstall
+
+  # Unix/Mac
+  rm -rf node_modules
+  npm install
+
+  # Windows
+  rd /s /q node_modules
+  npm install
   ```
 
 - If TypeScript build fails:
 
   ```bash
   # Unix/Mac
-  rm -rf dist/
+  rm -rf dist
   npm run build
 
   # Windows
   rd /s /q dist
   npm run build
-  ```
-
-- If the development server crashes:
-
-  ```bash 
-  # Clear node_modules and reinstall
-
-  # Unix/Mac
-  rm -rf node_modules/
-  npm install
-
-  # Windows
-  rd /s /q node_modules
-  npm install
   ```
 
 ## License
