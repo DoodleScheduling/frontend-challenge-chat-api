@@ -7,7 +7,6 @@ import { CONFIG } from '../config';
 
 const messagesRouter = Router();
 
-// In memory storage for messages, in real world scenario this should be replaced with a database
 const messages: Message[] = [];
 
 const validateMessage = [
@@ -27,44 +26,6 @@ const validateMessage = [
     .withMessage('Author name contains invalid characters'),
 ];
 
-// Get messages
-messagesRouter.get(
-  '/',
-  [
-    query('limit').optional().isInt({ min: 1 }),
-    query('since').optional().isInt({ min: 0 }),
-  ],
-  (
-    req: Request<object, Message[], unknown, GetMessagesQuery>,
-    res: Response,
-    next: NextFunction
-  ): void => {
-    try {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        res.status(400).json({
-          error: 'Invalid query parameters',
-          details: errors.array(),
-        });
-        return;
-      }
-
-      const limit = req.query.limit
-        ? parseInt(req.query.limit, 10)
-        : CONFIG.defaultMessagesLimit;
-      const since = parseInt(req.query.since || '0', 10);
-
-      const filteredMessages = messages
-        .filter((msg) => msg.timestamp > since)
-        .slice(-limit);
-
-      res.status(200).json(filteredMessages);
-    } catch (err) {
-      next(err);
-    }
-  }
-);
-
 // Create message
 messagesRouter.post(
   '/',
@@ -76,6 +37,7 @@ messagesRouter.post(
   ): void => {
     try {
       const errors = validationResult(req);
+
       if (!errors.isEmpty()) {
         res.status(400).json({
           error: 'Invalid message format',
@@ -85,16 +47,63 @@ messagesRouter.post(
       }
 
       const { message, author } = req.body;
+      const now = new Date();
 
       const newMessage: Message = {
         id: randomUUID(),
         message,
         author,
-        timestamp: Date.now(),
+        timestamp: now.toISOString(),
       };
+
       messages.push(newMessage);
 
       res.status(201).json(newMessage);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+// Get messages
+messagesRouter.get(
+  '/',
+  [
+    query('limit').optional().isInt({ min: 1 }),
+    query('since')
+      .optional()
+      .isISO8601()
+      .withMessage('Invalid timestamp format'),
+  ],
+  (
+    req: Request<object, Message[], unknown, GetMessagesQuery>,
+    res: Response,
+    next: NextFunction
+  ): void => {
+    try {
+      const errors = validationResult(req);
+
+      if (!errors.isEmpty()) {
+        res.status(400).json({
+          error: 'Invalid query parameters',
+          details: errors.array(),
+        });
+        return;
+      }
+
+      const { limit, since } = req.query;
+
+      const limitMessages = limit
+        ? parseInt(limit, 10)
+        : CONFIG.defaultMessagesLimit;
+
+      const result = since
+        ? messages
+            .filter((msg) => msg.timestamp > new Date(since).toISOString())
+            .slice(-limitMessages)
+        : messages.slice(-limitMessages);
+
+      res.status(200).json(result);
     } catch (err) {
       next(err);
     }

@@ -2,7 +2,7 @@ export interface Message {
   id: string;
   message: string;
   author: string;
-  timestamp: number;
+  timestamp: string; // ISO 8601
 }
 
 export interface GetMessagesQuery {
