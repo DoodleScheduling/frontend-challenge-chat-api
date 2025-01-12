@@ -10,6 +10,8 @@ export default [
       'coverage/',
       '.git/',
       'package-lock.json',
+      '*.config.{js,ts}',
+      '*.d.ts',
     ],
   },
   {
@@ -17,6 +19,7 @@ export default [
     languageOptions: {
       globals: {
         ...globals.node,
+        process: 'readonly',
       },
     },
   },
@@ -24,8 +27,23 @@ export default [
   ...tseslint.configs.recommended,
   {
     rules: {
+      // Development helpers
       'no-console': 'off',
+      'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
+
+      // TypeScript specific
       '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        { argsIgnorePattern: '^_' },
+      ],
+      '@typescript-eslint/explicit-function-return-type': 'off',
+
+      // General code quality
+      'no-unused-vars': 'off', // TypeScript handles this
+      'prefer-const': 'error',
+      'no-var': 'error',
+      eqeqeq: 'error',
     },
   },
 ];
