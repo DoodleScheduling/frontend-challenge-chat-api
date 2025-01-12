@@ -10,7 +10,7 @@ const SWAGGER_DOCUMENT = {
   },
   servers: [
     {
-      url: `${CONFIG.api.url}${CONFIG.api.route}`,
+      url: `${CONFIG.api.url}:${CONFIG.port}${CONFIG.api.route}`,
       description: `${CONFIG.env} server`,
     },
   ],
