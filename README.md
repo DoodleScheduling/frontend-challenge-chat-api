@@ -45,32 +45,31 @@ Install Docker for your operating system by following the [official installation
 
 ### Running the API with Docker
 
-1. Open a terminal/command prompt
+1. Build the Docker image:
+```bash
+docker build -t chat-api .
+```
 
-2. Build the Docker image:
-   ```bash
-   docker build -t chat-api .
-   ```
+2. Run the container:
+```bash
+docker run -p 3000:3000 --name chat-api chat-api
+```
 
-3. Start the API:
-   ```bash
-   docker compose up
-   ```
+3. To stop the container:
+```bash
+docker stop chat-api
+```
 
-   To rebuild the container:
-   ```bash
-   docker compose up --build
-   ```
+4. To remove the container:
+```bash
+docker rm chat-api
+```
 
-   To stop and remove containers:
-   ```bash
-   docker compose down
-   ```
-
-   To clean up completely (remove containers, images, and volumes):
-   ```bash
-   docker compose down --rmi local -v
-   ```
+5. To clean up completely (remove container and image):
+```bash
+docker rm -f chat-api
+docker rmi chat-api
+```
 
 ## Option 2: Local Development (Without Docker)
 
@@ -137,8 +136,8 @@ Create a new chat message.
 Request Body:
 ```json
 {
-  "message": "Grüezi mitenand",
-  "author": "Hans Müller"
+  "message": "Hello",
+  "author": "John Doe"
 }
 ```
 
@@ -166,7 +165,7 @@ Health check endpoint returning API status.
 
 If the container won't start:
 ```bash
-docker compose logs
+docker logs chat-api
 ```
 
 If port 3000 is already in use:
@@ -179,7 +178,8 @@ netstat -ano | findstr :3000
 
 # Then either:
 # 1. Stop the conflicting process, or
-# 2. Change the port in docker-compose.yml to use a different port
+# 2. Use a different port when running Docker:
+docker run -p 3001:3000 --name chat-api chat-api
 ```
 
 #### Local Development Issues:
