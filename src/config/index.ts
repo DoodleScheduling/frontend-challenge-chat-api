@@ -1,5 +1,8 @@
 import { env } from './env';
 
+// Hardcoded token for simplicity. In a real world application, we should use a more secure method.
+const AUTH_TOKEN = 'super-secret-doodle-token';
+
 const CONFIG = {
   port: env.PORT,
   env: env.NODE_ENV,
@@ -15,7 +18,7 @@ const CONFIG = {
     timeoutErrorDelay: 15000, // 15 seconds
   },
   auth: {
-    token: env.AUTH_TOKEN,
+    token: AUTH_TOKEN,
   },
 } as const;
 

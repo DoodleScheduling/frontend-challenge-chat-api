@@ -20,7 +20,7 @@ const SWAGGER_DOCUMENT = {
         type: 'http',
         scheme: 'bearer',
         bearerFormat: 'token',
-        description: 'Enter the token value, e.g. "super-secret-doodle-token"',
+        description: `Enter the token value, e.g. ${CONFIG.auth.token}`,
       },
     },
   },

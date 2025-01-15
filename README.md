@@ -138,13 +138,11 @@ All message related endpoints require authentication via a Bearer token in the A
 
 #### Authentication Token
 
-By default, use this token for all requests:
+Use this token for all requests:
 
 ```
 super-secret-doodle-token
 ```
-
-You can configure a custom token by setting the `AUTH_TOKEN` in `.env` file.
 
 #### Example Headers
 
