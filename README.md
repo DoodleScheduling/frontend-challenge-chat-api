@@ -13,6 +13,7 @@ This API provides the core functionality you'll need:
 - Fetching existing chat messages
 - Creating new messages
 - Real time message updates
+- Authentication
 
 The API comes with:
 
@@ -26,7 +27,7 @@ The API comes with:
 To begin the challenge:
 
 1. Set up the API by following the installation instructions below
-2. Explore the API endpoints using the Swagger documentation
+2. Explore the API endpoints
 3. Start building your frontend application against this API
 
 ## Option 1: Running with Docker (Recommended)
@@ -43,38 +44,38 @@ Install Docker for your operating system by following the [official installation
 - Port 3000 must be available
 - Internet connection for pulling Docker images
 
-### Running the API with Docker
+### Running the API with Docker (RECOMMENDED)
 
 1. Build the Docker image:
 
-```bash
-docker build -t chat-api .
-```
+   ```bash
+   docker build -t chat-api .
+   ```
 
 2. Run the container:
 
-```bash
-docker run -p 3000:3000 --name chat-api chat-api
-```
+   ```bash
+   docker run -p 3000:3000 --name chat-api chat-api
+   ```
 
 3. To stop the container:
 
-```bash
-docker stop chat-api
-```
+   ```bash
+   docker stop chat-api
+   ```
 
 4. To remove the container:
 
-```bash
-docker rm chat-api
-```
+   ```bash
+   docker rm chat-api
+   ```
 
 5. To clean up completely (remove container and image):
 
-```bash
-docker rm -f chat-api
-docker rmi chat-api
-```
+   ```bash
+   docker rm -f chat-api
+   docker rmi chat-api
+   ```
 
 ## Option 2: Local Development (Without Docker)
 
@@ -91,6 +92,7 @@ Set up environment variables:
 ```bash
 # Unix/Mac
 cp .env.example .env
+
 # Windows
 copy .env.example .env
 ```
@@ -103,7 +105,7 @@ npm install
 
 ### Running the API Locally
 
-For development (with hot-reload):
+For development (with hot reload):
 
 ```bash
 npm run dev
@@ -129,6 +131,44 @@ After starting the API (either with Docker or locally), verify it's running by v
 
 Once the server is running, you can access the Swagger documentation at:
 `http://localhost:3000/api/v1/docs`
+
+### Authentication
+
+All message related endpoints require authentication via a Bearer token in the Authorization header.
+
+#### Authentication Token
+
+By default, use this token for all requests:
+
+```
+super-secret-doodle-token
+```
+
+You can configure a custom token by setting the `AUTH_TOKEN` in `.env` file.
+
+#### Example Headers
+
+```http
+Authorization: Bearer super-secret-doodle-token
+```
+
+#### Testing with curl
+
+```bash
+# Get messages
+curl http://localhost:3000/api/v1/messages \
+  -H "Authorization: Bearer super-secret-doodle-token"
+
+# Create message
+curl -X POST http://localhost:3000/api/v1/messages \
+  -H "Authorization: Bearer super-secret-doodle-token" \
+  -H "Content-Type: application/json" \
+  -d '{"message": "Hello", "author": "John Doe"}'
+```
+
+#### Error Responses
+
+Requests without proper authentication will receive a 401 Unauthorized response.
 
 ### Key Endpoints
 
@@ -164,7 +204,6 @@ Health check endpoint returning API status.
 - Written in TypeScript
 - Uses in memory storage for messages (no database required)
 - Includes request validation with detailed error logging
-- CORS enabled for frontend development
 
 ## Additional Information
 
@@ -188,6 +227,7 @@ If port 3000 is already in use:
 # Check what's using the port
 # Unix/Mac
 lsof -i :3000
+
 # Windows
 netstat -ano | findstr :3000
 

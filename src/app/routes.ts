@@ -1,12 +1,13 @@
 import { Application } from 'express';
 
+import { authMiddleware } from '../middleware/auth';
 import { messagesRouter } from '../routes/messages';
 import { healthRouter } from '../routes/health';
 import { docsRouter } from '../routes/docs';
 import { CONFIG } from '../config';
 
 const setupApiRoutes = (app: Application): void => {
-  app.use(`${CONFIG.api.route}/messages`, messagesRouter);
+  app.use(`${CONFIG.api.route}/messages`, authMiddleware, messagesRouter);
 };
 
 const setupUtilityRoutes = (app: Application): void => {

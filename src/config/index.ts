@@ -14,6 +14,9 @@ const CONFIG = {
     defaultMessagesLimit: env.DEFAULT_MESSAGES_LIMIT,
     timeoutErrorDelay: 15000, // 15 seconds
   },
+  auth: {
+    token: env.AUTH_TOKEN,
+  },
 } as const;
 
 export { CONFIG };

@@ -14,6 +14,21 @@ const SWAGGER_DOCUMENT = {
       description: `${CONFIG.env} server`,
     },
   ],
+  components: {
+    securitySchemes: {
+      bearerAuth: {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'token',
+        description: 'Enter the token value, e.g. "super-secret-doodle-token"',
+      },
+    },
+  },
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
   tags: [
     {
       name: 'Messages',
@@ -25,6 +40,11 @@ const SWAGGER_DOCUMENT = {
       get: {
         tags: ['Messages'],
         summary: 'Get chat messages',
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
         parameters: [
           {
             in: 'query',
@@ -77,6 +97,18 @@ const SWAGGER_DOCUMENT = {
               },
             },
           },
+          '401': {
+            description: 'Unauthorized',
+            content: {
+              'application/json': {
+                example: {
+                  message: 'Authorization header missing',
+                  statusCode: 401,
+                  error: 'Unauthorized',
+                },
+              },
+            },
+          },
           '400': {
             description: 'Invalid query parameters',
             content: {
@@ -117,6 +149,11 @@ const SWAGGER_DOCUMENT = {
       post: {
         tags: ['Messages'],
         summary: 'Create new message',
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
         requestBody: {
           required: true,
           content: {
@@ -153,6 +190,18 @@ const SWAGGER_DOCUMENT = {
                   message: 'Hello everyone!',
                   author: 'John Smith',
                   timestamp: '2024-01-12T10:30:00Z',
+                },
+              },
+            },
+          },
+          '401': {
+            description: 'Unauthorized',
+            content: {
+              'application/json': {
+                example: {
+                  message: 'Authorization header missing',
+                  statusCode: 401,
+                  error: 'Unauthorized',
                 },
               },
             },

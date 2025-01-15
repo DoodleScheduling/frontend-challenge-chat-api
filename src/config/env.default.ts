@@ -10,6 +10,9 @@ const DEFAULT_CONFIG = {
     corsMethods: 'GET,POST,OPTIONS',
     env: 'development',
   },
+  auth: {
+    token: 'super-secret-doodle-token',
+  },
 } as const;
 
 export { DEFAULT_CONFIG };

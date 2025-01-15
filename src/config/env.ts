@@ -13,6 +13,7 @@ const envSchema = z.object({
     .default(DEFAULT_CONFIG.api.messagesLimit),
   CORS_ORIGIN: z.string().default(DEFAULT_CONFIG.app.corsOrigin),
   CORS_METHODS: z.string().default(DEFAULT_CONFIG.app.corsMethods),
+  AUTH_TOKEN: z.string().default(DEFAULT_CONFIG.auth.token),
 
   // App Configuration
   PORT: z.coerce.number().positive().default(DEFAULT_CONFIG.app.port),
