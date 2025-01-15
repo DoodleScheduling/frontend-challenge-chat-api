@@ -1,4 +1,5 @@
 import { Application } from 'express';
+
 import { notFoundHandler, errorHandler } from '../middleware/error';
 
 const setupErrorHandlers = (app: Application): void => {
