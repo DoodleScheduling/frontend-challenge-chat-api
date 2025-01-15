@@ -23,7 +23,7 @@ const INITIAL_MESSAGES: Message[] = [
   {
     id: randomUUID(),
     message: 'Hey team! I created a Doodle poll for our monthly team lunch 🍕',
-    author: 'Luca',
+    author: 'Luka',
     timestamp: new Date(
       Date.now() - timeToMilliseconds('5h 12m 30s')
     ).toISOString(),
@@ -31,7 +31,7 @@ const INITIAL_MESSAGES: Message[] = [
   {
     id: randomUUID(),
     message: 'Cool! It&#39;s super easy to vote.',
-    author: 'Liam',
+    author: 'John',
     timestamp: new Date(
       Date.now() - timeToMilliseconds('4h 10m')
     ).toISOString(),
@@ -40,7 +40,7 @@ const INITIAL_MESSAGES: Message[] = [
     id: randomUUID(),
     message:
       'Could everyone vote by tomorrow? Then we can lock in the restaurant reservation.',
-    author: 'Luca',
+    author: 'Luka',
     timestamp: new Date(
       Date.now() - timeToMilliseconds('3h 7m 30s')
     ).toISOString(),
@@ -48,13 +48,13 @@ const INITIAL_MESSAGES: Message[] = [
   {
     id: randomUUID(),
     message: "Done! Love how it shows everyone's availability at a glance.",
-    author: 'Heidi',
+    author: 'Maddie',
     timestamp: new Date(Date.now() - timeToMilliseconds('2h 5m')).toISOString(),
   },
   {
     id: randomUUID(),
     message: "Just submitted my preferences. Can't wait for the lunch! 😋",
-    author: 'Sofia',
+    author: 'Nina',
     timestamp: new Date(
       Date.now() - timeToMilliseconds('1h 2m 30s')
     ).toISOString(),

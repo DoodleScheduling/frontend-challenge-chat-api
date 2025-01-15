@@ -10,7 +10,7 @@ As part of the challenge, you'll be building a chat interface that connects to t
 
 This API provides the core functionality you'll need:
 
-- Fetching existing chat messages  
+- Fetching existing chat messages
 - Creating new messages
 - Real time message updates
 
@@ -46,26 +46,31 @@ Install Docker for your operating system by following the [official installation
 ### Running the API with Docker
 
 1. Build the Docker image:
+
 ```bash
 docker build -t chat-api .
 ```
 
 2. Run the container:
+
 ```bash
 docker run -p 3000:3000 --name chat-api chat-api
 ```
 
 3. To stop the container:
+
 ```bash
 docker stop chat-api
 ```
 
 4. To remove the container:
+
 ```bash
 docker rm chat-api
 ```
 
 5. To clean up completely (remove container and image):
+
 ```bash
 docker rm -f chat-api
 docker rmi chat-api
@@ -76,11 +81,13 @@ docker rmi chat-api
 ### Prerequisites
 
 #### Node.js
+
 Install Node.js v20 or higher by downloading it from https://nodejs.org.
 
 ### Setup and Installation
 
 Set up environment variables:
+
 ```bash
 # Unix/Mac
 cp .env.example .env
@@ -89,6 +96,7 @@ copy .env.example .env
 ```
 
 Install dependencies:
+
 ```bash
 npm install
 ```
@@ -96,11 +104,13 @@ npm install
 ### Running the API Locally
 
 For development (with hot-reload):
+
 ```bash
 npm run dev
 ```
 
 For production build:
+
 ```bash
 npm run build
 npm start
@@ -111,6 +121,7 @@ The server will start on http://localhost:3000
 ## Verifying the API
 
 After starting the API (either with Docker or locally), verify it's running by visiting:
+
 - API Documentation: http://localhost:3000/api/v1/docs
 - Health Check: http://localhost:3000/health
 
@@ -126,6 +137,7 @@ Once the server is running, you can access the Swagger documentation at:
 Retrieve chat messages with optional pagination and filtering.
 
 Query Parameters:
+
 - `limit` (optional): Maximum number of messages to return (default: 50)
 - `since` (optional): Timestamp to filter messages from
 
@@ -134,6 +146,7 @@ Query Parameters:
 Create a new chat message.
 
 Request Body:
+
 ```json
 {
   "message": "Hello",
@@ -164,11 +177,13 @@ Health check endpoint returning API status.
 #### Docker Issues:
 
 If the container won't start:
+
 ```bash
 docker logs chat-api
 ```
 
 If port 3000 is already in use:
+
 ```bash
 # Check what's using the port
 # Unix/Mac
@@ -185,6 +200,7 @@ docker run -p 3001:3000 --name chat-api chat-api
 #### Local Development Issues:
 
 If you have dependency issues:
+
 ```bash
 # Clear node_modules and reinstall
 rm -rf node_modules
@@ -192,6 +208,7 @@ npm install
 ```
 
 If TypeScript build fails:
+
 ```bash
 rm -rf dist
 npm run build

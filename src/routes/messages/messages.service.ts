@@ -5,6 +5,7 @@ import { messageSchema } from '../../schemas';
 import { CONFIG } from '../../config';
 import { INITIAL_MESSAGES } from '../../data/messages';
 
+// In memory storage for messages. In real world application this should be replaced with database.
 const messages: Message[] = [...INITIAL_MESSAGES];
 
 const messagesService = {
@@ -23,12 +24,13 @@ const messagesService = {
 
   getMessages(limit?: number, since?: string): Message[] {
     const limitMessages = limit ?? CONFIG.api.defaultMessagesLimit;
-
-    return since
+    const data = since
       ? messages
           .filter((msg) => msg.timestamp > new Date(since).toISOString())
           .slice(-limitMessages)
       : messages.slice(-limitMessages);
+
+    return data;
   },
 };
 
