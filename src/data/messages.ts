@@ -7,9 +7,9 @@ import { Message } from '../types';
  */
 export const timeToMilliseconds = (timeStr: string): number => {
   const timeUnits: { [key: string]: number } = {
-    h: 3600000, // hours to milliseconds
-    m: 60000, // minutes to milliseconds
-    s: 1000, // seconds to milliseconds
+    h: 3600000,
+    m: 60000,
+    s: 1000,
   };
 
   return timeStr.split(' ').reduce((total, part) => {
