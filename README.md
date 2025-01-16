@@ -254,4 +254,4 @@ npm run build
 
 ## License
 
-Copyright (c) 2024 Doodle AG. All rights reserved.
+Copyright (c) 2025 Doodle AG. All rights reserved.
