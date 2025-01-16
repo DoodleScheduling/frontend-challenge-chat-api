@@ -44,7 +44,7 @@ Install Docker for your operating system by following the [official installation
 - Port 3000 must be available
 - Internet connection for pulling Docker images
 
-### Running the API with Docker (RECOMMENDED)
+### Running the API with Docker
 
 1. Build the Docker image:
 
