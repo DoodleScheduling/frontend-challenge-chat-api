@@ -218,7 +218,7 @@ Health check endpoint returning API status.
 If the container won't start:
 
 ```bash
-docker logs chat-api
+docker compose logs -f api
 ```
 
 If port 3000 is already in use:
