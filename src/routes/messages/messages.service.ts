@@ -1,37 +1,57 @@
-import { Message, CreateMessageBody } from '../../types';
-import { messageSchema } from '../../schemas';
-import { CONFIG } from '../../config';
+import { FilterQuery } from 'mongoose';
+
+import { Message, MessageInternal, CreateMessageBody } from '../../types';
+import { CONFIG, VALIDATION_CONFIG } from '../../config';
 import { MessageModel } from '../../models/message.model';
+
+const transformMessage = (message: MessageInternal): Message => ({
+  _id: message._id,
+  message: message.message,
+  author: message.author,
+  createdAt: message.createdAt.toISOString(),
+});
 
 const messagesService = {
   async createMessage(data: CreateMessageBody): Promise<Message> {
-    const newMessage = {
+    const messageDoc = await MessageModel.create({
       ...data,
-      timestamp: new Date().toISOString(),
-    };
+      createdAt: new Date(),
+    });
 
-    const validatedMessage = messageSchema.parse(newMessage);
-    const messageDoc = new MessageModel(validatedMessage);
-    await messageDoc.save();
-
-    return validatedMessage;
+    return transformMessage(messageDoc);
   },
 
-  async getMessages(limit?: number, since?: string): Promise<Message[]> {
-    const limitMessages = limit ?? CONFIG.api.defaultMessagesLimit;
+  async getMessages({
+    sortOrder = -1,
+    limit,
+    since,
+    before,
+  }: {
+    sortOrder: 1 | -1;
+    limit: number | undefined;
+    since: string | undefined;
+    before: string | undefined;
+  }): Promise<Message[]> {
+    const limitMessages = limit
+      ? VALIDATION_CONFIG.message.maxLimit
+      : CONFIG.api.defaultMessagesLimit;
 
-    let query = {};
+    const query: FilterQuery<MessageInternal> = {};
 
-    if (since) {
-      query = { timestamp: { $gt: new Date(since).toISOString() } };
+    if (since || before) {
+      query.createdAt = {};
+      if (since) {
+        query.createdAt.$gt = new Date(since);
+      }
+      if (before) {
+        query.createdAt.$lt = new Date(before);
+      }
     }
 
-    const messages = await MessageModel.find(query)
-      .sort({ timestamp: -1 })
+    return MessageModel.find(query)
+      .sort({ createdAt: sortOrder })
       .limit(limitMessages)
-      .lean();
-
-    return messages;
+      .then((messages) => messages.map(transformMessage));
   },
 };
 

@@ -3,6 +3,7 @@ const VALIDATION_CONFIG = {
     minLength: 1,
     maxLength: 500,
     limit: 50,
+    maxLimit: 1000,
   },
   author: {
     minLength: 1,

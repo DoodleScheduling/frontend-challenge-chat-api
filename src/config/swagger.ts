@@ -1,4 +1,4 @@
-import { CONFIG } from './index';
+import { CONFIG } from './';
 import { VALIDATION_CONFIG } from './validation';
 
 const SWAGGER_DOCUMENT = {
@@ -6,7 +6,7 @@ const SWAGGER_DOCUMENT = {
   info: {
     title: "Doodle's Chat API",
     version: CONFIG.api.version,
-    description: 'API for handling chat messages with MongoDB persistence',
+    description: 'API for handling chat messages',
   },
   servers: [
     {
@@ -68,6 +68,18 @@ const SWAGGER_DOCUMENT = {
             required: false,
             description: 'Max messages to return',
           },
+          {
+            in: 'query',
+            name: 'before',
+            schema: {
+              type: 'string',
+              format: 'date-time',
+              description:
+                'ISO 8601 timestamp to retrieve messages before this time',
+            },
+            required: false,
+            example: '',
+          },
         ],
         responses: {
           '200': {
@@ -79,33 +91,9 @@ const SWAGGER_DOCUMENT = {
                     _id: '123e4567-e89b-12d3-a456-426614174000',
                     message: 'Hello everyone!',
                     author: 'John Smith',
-                    timestamp: '2024-01-12T10:30:00Z',
-                  },
-                  {
-                    _id: '123e4567-e89b-12d3-a456-426614174001',
-                    message: 'Nice to meet you all',
-                    author: 'Emily Wilson',
-                    timestamp: '2024-01-12T10:35:00Z',
-                  },
-                  {
-                    _id: '123e4567-e89b-12d3-a456-426614174002',
-                    message: 'Looking forward to our chat',
-                    author: 'David Thompson',
-                    timestamp: '2024-01-12T10:40:00Z',
+                    createdAt: '2024-01-12T10:30:00Z',
                   },
                 ],
-              },
-            },
-          },
-          '401': {
-            description: 'Unauthorized',
-            content: {
-              'application/json': {
-                example: {
-                  message: 'Authorization header missing',
-                  statusCode: 401,
-                  error: 'Unauthorized',
-                },
               },
             },
           },
@@ -126,6 +114,11 @@ const SWAGGER_DOCUMENT = {
                       param: 'limit',
                       location: 'query',
                     },
+                    {
+                      msg: 'Cannot use both "since" and "before" parameters simultaneously.',
+                      param: 'before',
+                      location: 'query',
+                    },
                   ],
                 },
               },
@@ -138,7 +131,7 @@ const SWAGGER_DOCUMENT = {
                 example: {
                   error: {
                     message: 'Internal Server Error',
-                    timestamp: '2024-01-12T10:30:00Z',
+                    createdAt: '2024-01-12T10:30:00Z',
                   },
                 },
               },
@@ -189,19 +182,7 @@ const SWAGGER_DOCUMENT = {
                   _id: '123e4567-e89b-12d3-a456-426614174000',
                   message: 'Hello everyone!',
                   author: 'John Smith',
-                  timestamp: '2024-01-12T10:30:00Z',
-                },
-              },
-            },
-          },
-          '401': {
-            description: 'Unauthorized',
-            content: {
-              'application/json': {
-                example: {
-                  message: 'Authorization header missing',
-                  statusCode: 401,
-                  error: 'Unauthorized',
+                  createdAt: '2024-01-12T10:30:00Z',
                 },
               },
             },
@@ -235,7 +216,7 @@ const SWAGGER_DOCUMENT = {
                 example: {
                   error: {
                     message: 'Internal Server Error',
-                    timestamp: '2024-01-12T10:30:00Z',
+                    createdAt: '2024-01-12T10:30:00Z',
                   },
                 },
               },

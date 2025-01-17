@@ -1,17 +1,26 @@
 import mongoose, { Schema } from 'mongoose';
-import { Message } from '../types';
+import crypto from 'crypto';
 
-const MessageSchema = new Schema<Message>(
+import { MessageInternal } from '../types';
+
+const MessageSchema = new Schema<MessageInternal>(
   {
-    _id: { type: String },
+    _id: {
+      type: String,
+      default: () => crypto.randomUUID(),
+    },
     message: { type: String, required: true },
     author: { type: String, required: true },
-    timestamp: { type: String, required: true },
+    createdAt: { type: Date, required: true },
   },
-  { versionKey: false }
+  {
+    versionKey: false,
+  }
 );
 
-// Index messages by timestamp in descending order
-MessageSchema.index({ timestamp: -1 });
+MessageSchema.index({ createdAt: -1 });
 
-export const MessageModel = mongoose.model<Message>('Message', MessageSchema);
+export const MessageModel = mongoose.model<MessageInternal>(
+  'Message',
+  MessageSchema
+);

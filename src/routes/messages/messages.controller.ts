@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
+
 import { Message, CreateMessageBody, GetMessagesQuery } from '../../types';
-import { createMessageSchema, getMessagesQuerySchema } from '../../schemas';
 import { messagesService } from './messages.service';
 
 const messagesController = {
@@ -10,8 +10,8 @@ const messagesController = {
     next: NextFunction
   ): Promise<void> {
     try {
-      const validatedData = createMessageSchema.parse(req.body);
-      const newMessage = await messagesService.createMessage(validatedData);
+      const newMessage = await messagesService.createMessage(req.body);
+
       res.status(201).json(newMessage);
     } catch (err) {
       next(err);
@@ -24,11 +24,16 @@ const messagesController = {
     next: NextFunction
   ): Promise<void> {
     try {
-      const validatedQuery = getMessagesQuerySchema.parse(req.query);
-      const messages = await messagesService.getMessages(
-        validatedQuery.limit,
-        validatedQuery.since
-      );
+      const { limit, since, before } = req.query;
+      const sortOrder = since ? 1 : -1;
+
+      const messages = await messagesService.getMessages({
+        sortOrder,
+        limit,
+        since,
+        before,
+      });
+
       res.status(200).json(messages);
     } catch (err) {
       next(err);

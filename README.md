@@ -28,7 +28,7 @@ The API comes with:
 
 ### Prerequisites
 
-#### Docker and Docker Compose
+#### Docker
 
 Install Docker for your operating system by following the [official installation guides](https://docs.docker.com/).
 
@@ -119,7 +119,6 @@ The server will start on http://localhost:3000
 
 After starting the API (either with Docker or locally), verify it's running by visiting:
 
-- API Documentation: http://localhost:3000/api/v1/docs
 - Health Check: http://localhost:3000/health
 
 ## Database Details
@@ -127,7 +126,7 @@ After starting the API (either with Docker or locally), verify it's running by v
 The API uses MongoDB for persistent storage with the following features:
 
 - Automatic seeding of initial chat messages on first start
-- Indexed timestamp field for efficient queries
+- Indexed createdAt field for efficient queries
 
 ## API Documentation
 
@@ -179,7 +178,8 @@ Retrieve chat messages with optional pagination and filtering.
 Query Parameters:
 
 - `limit` (optional): Maximum number of messages to return (default: 50)
-- `since` (optional): Timestamp to filter messages from
+- `since` (optional): createdAt to filter messages from
+- `before` (optional): createdAt to filter messages before
 
 #### POST /api/v1/messages
 
