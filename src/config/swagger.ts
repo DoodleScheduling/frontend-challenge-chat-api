@@ -6,7 +6,7 @@ const SWAGGER_DOCUMENT = {
   info: {
     title: "Doodle's Chat API",
     version: CONFIG.api.version,
-    description: 'API for handling chat messages',
+    description: 'API for handling chat messages with MongoDB persistence',
   },
   servers: [
     {
@@ -76,19 +76,19 @@ const SWAGGER_DOCUMENT = {
               'application/json': {
                 example: [
                   {
-                    id: '123e4567-e89b-12d3-a456-426614174000',
+                    _id: '123e4567-e89b-12d3-a456-426614174000',
                     message: 'Hello everyone!',
                     author: 'John Smith',
                     timestamp: '2024-01-12T10:30:00Z',
                   },
                   {
-                    id: '123e4567-e89b-12d3-a456-426614174001',
+                    _id: '123e4567-e89b-12d3-a456-426614174001',
                     message: 'Nice to meet you all',
                     author: 'Emily Wilson',
                     timestamp: '2024-01-12T10:35:00Z',
                   },
                   {
-                    id: '123e4567-e89b-12d3-a456-426614174002',
+                    _id: '123e4567-e89b-12d3-a456-426614174002',
                     message: 'Looking forward to our chat',
                     author: 'David Thompson',
                     timestamp: '2024-01-12T10:40:00Z',
@@ -186,7 +186,7 @@ const SWAGGER_DOCUMENT = {
             content: {
               'application/json': {
                 example: {
-                  id: '123e4567-e89b-12d3-a456-426614174000',
+                  _id: '123e4567-e89b-12d3-a456-426614174000',
                   message: 'Hello everyone!',
                   author: 'John Smith',
                   timestamp: '2024-01-12T10:30:00Z',

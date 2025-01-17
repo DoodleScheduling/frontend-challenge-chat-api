@@ -1,36 +1,37 @@
-import { randomUUID } from 'crypto';
-
 import { Message, CreateMessageBody } from '../../types';
 import { messageSchema } from '../../schemas';
 import { CONFIG } from '../../config';
-import { INITIAL_MESSAGES } from '../../data/messages';
-
-// In memory storage for messages. In real world application this should be replaced with database.
-const messages: Message[] = [...INITIAL_MESSAGES];
+import { MessageModel } from '../../models/message.model';
 
 const messagesService = {
-  createMessage(data: CreateMessageBody): Message {
+  async createMessage(data: CreateMessageBody): Promise<Message> {
     const newMessage = {
-      id: randomUUID(),
       ...data,
       timestamp: new Date().toISOString(),
     };
 
     const validatedMessage = messageSchema.parse(newMessage);
-    messages.push(validatedMessage);
+    const messageDoc = new MessageModel(validatedMessage);
+    await messageDoc.save();
 
     return validatedMessage;
   },
 
-  getMessages(limit?: number, since?: string): Message[] {
+  async getMessages(limit?: number, since?: string): Promise<Message[]> {
     const limitMessages = limit ?? CONFIG.api.defaultMessagesLimit;
-    const data = since
-      ? messages
-          .filter((msg) => msg.timestamp > new Date(since).toISOString())
-          .slice(-limitMessages)
-      : messages.slice(-limitMessages);
 
-    return data;
+    let query = {};
+
+    if (since) {
+      query = { timestamp: { $gt: new Date(since).toISOString() } };
+    }
+
+    const messages = await MessageModel.find(query)
+      .sort({ timestamp: -1 })
+      .limit(limitMessages)
+      .lean();
+
+    return messages;
   },
 };
 

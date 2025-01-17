@@ -10,6 +10,9 @@ const DEFAULT_CONFIG = {
     corsMethods: 'GET,POST,OPTIONS',
     env: 'development',
   },
+  database: {
+    uri: 'mongodb://localhost:27017/mydb',
+  },
 } as const;
 
 export { DEFAULT_CONFIG };

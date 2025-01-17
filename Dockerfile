@@ -10,8 +10,10 @@ RUN npm run build
 FROM node:22-alpine
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci --omit=dev --ignore-scripts && npm cache clean --force
-COPY --from=builder /app/dist ./dist
+RUN npm ci --omit=dev --ignore-scripts && \
+    npm cache clean --force && \
+    chown -R node:node .
 USER node
 EXPOSE 3000
+COPY --from=builder /app/dist ./dist
 CMD ["npm", "start"]

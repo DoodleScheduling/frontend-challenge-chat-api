@@ -19,6 +19,9 @@ const envSchema = z.object({
   NODE_ENV: z
     .enum(['development', 'preproduction', 'production'])
     .default(DEFAULT_CONFIG.app.env),
+
+  // Database Configuration
+  MONGODB_URI: z.string().default(DEFAULT_CONFIG.database.uri),
 });
 
 const env = envSchema.parse(process.env);

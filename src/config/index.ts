@@ -20,6 +20,9 @@ const CONFIG = {
   auth: {
     token: AUTH_TOKEN,
   },
+  mongodb: {
+    uri: env.MONGODB_URI,
+  },
 } as const;
 
 export { CONFIG };

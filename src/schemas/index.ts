@@ -17,7 +17,7 @@ const authorSchema = z
   });
 
 const messageSchema = z.object({
-  id: z.string().uuid(),
+  _id: z.string(),
   message: z
     .string()
     .trim()

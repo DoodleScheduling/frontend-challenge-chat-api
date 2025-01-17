@@ -21,7 +21,7 @@ export const timeToMilliseconds = (timeStr: string): number => {
 
 const INITIAL_MESSAGES: Message[] = [
   {
-    id: randomUUID(),
+    _id: randomUUID(),
     message: 'Hey team! I created a Doodle poll for our monthly team lunch 🍕',
     author: 'Luka',
     timestamp: new Date(
@@ -29,7 +29,7 @@ const INITIAL_MESSAGES: Message[] = [
     ).toISOString(),
   },
   {
-    id: randomUUID(),
+    _id: randomUUID(),
     message: 'Cool! It&#39;s super easy to vote.',
     author: 'John',
     timestamp: new Date(
@@ -37,7 +37,7 @@ const INITIAL_MESSAGES: Message[] = [
     ).toISOString(),
   },
   {
-    id: randomUUID(),
+    _id: randomUUID(),
     message:
       'Could everyone vote by tomorrow? Then we can lock in the restaurant reservation.',
     author: 'Luka',
@@ -46,13 +46,13 @@ const INITIAL_MESSAGES: Message[] = [
     ).toISOString(),
   },
   {
-    id: randomUUID(),
+    _id: randomUUID(),
     message: "Done! Love how it shows everyone's availability at a glance.",
     author: 'Maddie',
     timestamp: new Date(Date.now() - timeToMilliseconds('2h 5m')).toISOString(),
   },
   {
-    id: randomUUID(),
+    _id: randomUUID(),
     message: "Just submitted my preferences. Can't wait for the lunch! 😋",
     author: 'Nina',
     timestamp: new Date(

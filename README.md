@@ -1,6 +1,6 @@
 # Doodle Frontend Challenge API
 
-Welcome to the Doodle Frontend Challenge! This repository contains a simple chat API that you'll use as the backend for your frontend implementation.
+Welcome to the Doodle Frontend Challenge! This repository contains a chat API using MongoDB for storage that you'll use as the backend for your frontend implementation.
 
 ## Overview
 
@@ -21,60 +21,47 @@ The API comes with:
 - Built in CORS support for local development
 - Error handling and validation with detailed logging
 - Docker containerization for consistent behavior
+- MongoDB integration for persistent storage
+- Initial seed data for chat messages
 
-### Getting Started
-
-To begin the challenge:
-
-1. Set up the API by following the installation instructions below
-2. Explore the API endpoints
-3. Start building your frontend application against this API
-
-## Option 1: Running with Docker (Recommended)
+## Option 1: Running with Docker (RECOMMENDED)
 
 ### Prerequisites
 
-#### Docker
+#### Docker and Docker Compose
 
 Install Docker for your operating system by following the [official installation guides](https://docs.docker.com/).
 
 #### System Requirements
 
 - At least 4GB of RAM
-- Port 3000 must be available
+- Ports 3000 and 27017 must be available
 - Internet connection for pulling Docker images
 
 ### Running the API with Docker
 
-1. Build the Docker image:
+1. Start the API and MongoDB:
 
    ```bash
-   docker build -t chat-api .
+   docker compose up
    ```
 
-2. Run the container:
+   To run in detached mode:
 
    ```bash
-   docker run -p 3000:3000 --name chat-api chat-api
+   docker compose up -d
    ```
 
-3. To stop the container:
+2. To stop the services:
 
    ```bash
-   docker stop chat-api
+   docker compose down
    ```
 
-4. To remove the container:
+3. To clean up completely (including volumes):
 
    ```bash
-   docker rm chat-api
-   ```
-
-5. To clean up completely (remove container and image):
-
-   ```bash
-   docker rm -f chat-api
-   docker rmi chat-api
+   docker compose down -v
    ```
 
 ## Option 2: Local Development (Without Docker)
@@ -85,9 +72,17 @@ Install Docker for your operating system by following the [official installation
 
 Install Node.js v20 or higher by downloading it from https://nodejs.org.
 
+#### MongoDB
+
+Install MongoDB by following the [official installation guide](https://www.mongodb.com/).
+
+### Starting MongoDB
+
+Before running the API, ensure MongoDB is running. Use documentation based on how it was installed.
+
 ### Setup and Installation
 
-Set up environment variables:
+1. Set up environment variables:
 
 ```bash
 # Unix/Mac
@@ -97,7 +92,7 @@ cp .env.example .env
 copy .env.example .env
 ```
 
-Install dependencies:
+2. Install dependencies:
 
 ```bash
 npm install
@@ -126,6 +121,13 @@ After starting the API (either with Docker or locally), verify it's running by v
 
 - API Documentation: http://localhost:3000/api/v1/docs
 - Health Check: http://localhost:3000/health
+
+## Database Details
+
+The API uses MongoDB for persistent storage with the following features:
+
+- Automatic seeding of initial chat messages on first start
+- Indexed timestamp field for efficient queries
 
 ## API Documentation
 
@@ -200,13 +202,13 @@ Health check endpoint returning API status.
 
 - Built with Node.js and Express
 - Written in TypeScript
-- Uses in memory storage for messages (no database required)
+- Uses MongoDB for message storage
 - Includes request validation with detailed error logging
 
 ## Additional Information
 
 1. The API runs in a container or locally, ensuring flexibility for different development preferences
-2. Messages are stored in memory, so data will reset when the server restarts
+2. Messages are stored in MongoDB, providing persistence across restarts
 3. Swagger documentation provides interactive API testing capabilities
 
 ### Troubleshooting
@@ -228,11 +230,6 @@ lsof -i :3000
 
 # Windows
 netstat -ano | findstr :3000
-
-# Then either:
-# 1. Stop the conflicting process, or
-# 2. Use a different port when running Docker:
-docker run -p 3001:3000 --name chat-api chat-api
 ```
 
 #### Local Development Issues:
