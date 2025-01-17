@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
 import { Message, CreateMessageBody, GetMessagesQuery } from '../../types';
+import { CONFIG, VALIDATION_CONFIG } from '../../config';
 import { messagesService } from './messages.service';
 
 const messagesController = {
@@ -26,10 +27,13 @@ const messagesController = {
     try {
       const { limit, since, before } = req.query;
       const sortOrder = since ? 1 : -1;
+      const limitMessages = limit
+        ? VALIDATION_CONFIG.message.maxLimit
+        : CONFIG.api.defaultMessagesLimit;
 
       const messages = await messagesService.getMessages({
         sortOrder,
-        limit,
+        limit: limitMessages,
         since,
         before,
       });

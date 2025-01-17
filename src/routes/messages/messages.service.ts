@@ -1,7 +1,6 @@
 import { FilterQuery } from 'mongoose';
 
 import { Message, MessageInternal, CreateMessageBody } from '../../types';
-import { CONFIG, VALIDATION_CONFIG } from '../../config';
 import { MessageModel } from '../../models/message.model';
 
 const transformMessage = (message: MessageInternal): Message => ({
@@ -28,14 +27,10 @@ const messagesService = {
     before,
   }: {
     sortOrder: 1 | -1;
-    limit: number | undefined;
+    limit: number;
     since: string | undefined;
     before: string | undefined;
   }): Promise<Message[]> {
-    const limitMessages = limit
-      ? VALIDATION_CONFIG.message.maxLimit
-      : CONFIG.api.defaultMessagesLimit;
-
     const query: FilterQuery<MessageInternal> = {};
 
     if (since || before) {
@@ -50,7 +45,7 @@ const messagesService = {
 
     return MessageModel.find(query)
       .sort({ createdAt: sortOrder })
-      .limit(limitMessages)
+      .limit(limit)
       .then((messages) => messages.map(transformMessage));
   },
 };

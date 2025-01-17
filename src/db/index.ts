@@ -6,6 +6,7 @@ import { seedDatabase } from './seed';
 export const connectDB = async (): Promise<void> => {
   try {
     await mongoose.connect(CONFIG.mongodb.uri);
+
     console.log('📦 MongoDB connected successfully');
 
     await seedDatabase();
