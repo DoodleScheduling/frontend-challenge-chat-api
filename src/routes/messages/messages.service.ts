@@ -23,20 +23,20 @@ const messagesService = {
   async getMessages({
     sortOrder = -1,
     limit,
-    since,
+    after,
     before,
   }: {
     sortOrder: 1 | -1;
     limit: number;
-    since: string | undefined;
+    after: string | undefined;
     before: string | undefined;
   }): Promise<Message[]> {
     const query: FilterQuery<MessageInternal> = {};
 
-    if (since || before) {
+    if (after || before) {
       const createdAtQuery: { $gt?: Date; $lt?: Date } = {};
-      if (since) {
-        createdAtQuery.$gt = new Date(since);
+      if (after) {
+        createdAtQuery.$gt = new Date(after);
       }
       if (before) {
         createdAtQuery.$lt = new Date(before);

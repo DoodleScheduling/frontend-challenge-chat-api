@@ -25,16 +25,14 @@ const messagesController = {
     next: NextFunction
   ): Promise<void> {
     try {
-      const { limit, since, before } = req.query;
-      const sortOrder = since ? 1 : -1;
-      const limitMessages = limit
-        ? VALIDATION_CONFIG.message.maxLimit
-        : CONFIG.api.defaultMessagesLimit;
+      const { limit, after, before } = req.query;
+      const sortOrder = after ? 1 : -1;
+      const limitMessages = limit ?? CONFIG.api.defaultMessagesLimit;
 
       const messages = await messagesService.getMessages({
         sortOrder,
         limit: limitMessages,
-        since,
+        after,
         before,
       });
 

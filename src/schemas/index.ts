@@ -63,11 +63,11 @@ const getMessagesQuerySchema = z
         message: `Limit cannot exceed ${VALIDATION_CONFIG.message.maxLimit.toString()}.`,
       })
       .optional(),
-    since: z.string().datetime('Invalid timestamp format').optional(),
+    after: z.string().datetime('Invalid timestamp format').optional(),
     before: z.string().datetime('Invalid timestamp format').optional(),
   })
-  .refine((data) => !(data.since && data.before), {
-    message: 'Cannot use both "since" and "before" parameters simultaneously.',
+  .refine((data) => !(data.after && data.before), {
+    message: 'Cannot use both "after" and "before" parameters simultaneously.',
     path: ['before'],
   });
 

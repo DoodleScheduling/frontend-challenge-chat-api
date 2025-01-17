@@ -178,8 +178,8 @@ Retrieve chat messages with optional pagination and filtering.
 Query Parameters:
 
 - `limit` (optional): Maximum number of messages to return (default: 50)
-- `since` (optional): createdAt to filter messages from
-- `before` (optional): createdAt to filter messages before
+- `after` (optional): Return messages created after the provided Date
+- `before` (optional): Return messages created before the provided Date
 
 #### POST /api/v1/messages
 

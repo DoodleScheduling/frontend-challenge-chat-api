@@ -48,11 +48,12 @@ const SWAGGER_DOCUMENT = {
         parameters: [
           {
             in: 'query',
-            name: 'since',
+            name: 'after',
             schema: {
               type: 'string',
               format: 'date-time',
-              description: 'ISO 8601 timestamp',
+              description:
+                'ISO 8601 timestamp to retrieve messages after this time',
             },
             required: false,
             example: '2024-01-12T10:30:00Z',
@@ -106,7 +107,7 @@ const SWAGGER_DOCUMENT = {
                   details: [
                     {
                       msg: 'Invalid timestamp format',
-                      param: 'since',
+                      param: 'after',
                       location: 'query',
                     },
                     {
@@ -115,7 +116,7 @@ const SWAGGER_DOCUMENT = {
                       location: 'query',
                     },
                     {
-                      msg: 'Cannot use both "since" and "before" parameters simultaneously.',
+                      msg: 'Cannot use both "after" and "before" parameters simultaneously.',
                       param: 'before',
                       location: 'query',
                     },
