@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
 import { Message, CreateMessageBody, GetMessagesQuery } from '../../types';
-import { CONFIG, VALIDATION_CONFIG } from '../../config';
+import { CONFIG } from '../../config';
 import { messagesService } from './messages.service';
 
 const messagesController = {
@@ -27,6 +27,7 @@ const messagesController = {
     try {
       const { limit, after, before } = req.query;
       const sortOrder = after ? 1 : -1;
+      const shouldReverse = Boolean(before);
       const limitMessages = limit ?? CONFIG.api.defaultMessagesLimit;
 
       const messages = await messagesService.getMessages({
@@ -34,6 +35,7 @@ const messagesController = {
         limit: limitMessages,
         after,
         before,
+        shouldReverse,
       });
 
       res.status(200).json(messages);

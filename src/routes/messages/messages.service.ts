@@ -22,11 +22,13 @@ const messagesService = {
 
   async getMessages({
     sortOrder = -1,
+    shouldReverse = false,
     limit,
     after,
     before,
   }: {
     sortOrder: 1 | -1;
+    shouldReverse: boolean;
     limit: number;
     after: string | undefined;
     before: string | undefined;
@@ -44,10 +46,17 @@ const messagesService = {
       query.createdAt = createdAtQuery;
     }
 
-    return MessageModel.find(query)
+    let messages = await MessageModel.find(query)
       .sort({ createdAt: sortOrder })
       .limit(limit)
+      .lean()
       .then((messages) => messages.map(transformMessage));
+
+    if (shouldReverse) {
+      messages = messages.reverse();
+    }
+
+    return messages;
   },
 };
 
