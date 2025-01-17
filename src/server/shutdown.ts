@@ -28,6 +28,8 @@ export const setupGracefulShutdown = (server: Server) => {
   };
 
   ['SIGTERM', 'SIGINT'].forEach((signal) => {
-    process.on(signal, () => handleShutdown(signal));
+    process.on(signal, (signal: string) => {
+      void handleShutdown(signal);
+    });
   });
 };

@@ -6,10 +6,10 @@ const authorSchema = z
   .string()
   .trim()
   .min(VALIDATION_CONFIG.author.minLength, {
-    message: `Author must be at least ${VALIDATION_CONFIG.author.minLength} characters`,
+    message: `Author must be at least ${VALIDATION_CONFIG.author.minLength.toString()} characters`,
   })
   .max(VALIDATION_CONFIG.author.maxLength, {
-    message: `Author cannot exceed ${VALIDATION_CONFIG.author.maxLength} characters`,
+    message: `Author cannot exceed ${VALIDATION_CONFIG.author.maxLength.toString()} characters`,
   })
   .regex(/^[\w\s-]+$/, {
     message:
@@ -25,7 +25,7 @@ const messageBaseSchema = {
       message: 'Message cannot be empty',
     })
     .max(VALIDATION_CONFIG.message.maxLength, {
-      message: `Message cannot exceed ${VALIDATION_CONFIG.message.maxLength} characters`,
+      message: `Message cannot exceed ${VALIDATION_CONFIG.message.maxLength.toString()} characters`,
     }),
   author: authorSchema,
 };
@@ -38,7 +38,7 @@ const createMessageSchema = z.object({
       message: 'Message cannot be empty',
     })
     .max(VALIDATION_CONFIG.message.maxLength, {
-      message: `Message cannot exceed ${VALIDATION_CONFIG.message.maxLength} characters`,
+      message: `Message cannot exceed ${VALIDATION_CONFIG.message.maxLength.toString()} characters`,
     }),
   author: authorSchema,
 });
@@ -55,15 +55,14 @@ const messageSchema = z.object({
 
 const getMessagesQuerySchema = z
   .object({
-    limit: z
-      .union([z.string().regex(/^\d+$/).transform(Number), z.number()])
-      .optional()
-      .refine(
-        (val) =>
-          val === undefined ||
-          (val > 0 && val <= VALIDATION_CONFIG.message.maxLimit),
-        `Limit must be a positive integer and cannot exceed ${VALIDATION_CONFIG.message.maxLimit}`
-      ),
+    limit: z.coerce
+      .number()
+      .int({ message: 'Limit must be an integer.' })
+      .min(1, { message: 'Limit must be at least 1.' })
+      .max(VALIDATION_CONFIG.message.maxLimit, {
+        message: `Limit cannot exceed ${VALIDATION_CONFIG.message.maxLimit.toString()}.`,
+      })
+      .optional(),
     since: z.string().datetime('Invalid timestamp format').optional(),
     before: z.string().datetime('Invalid timestamp format').optional(),
   })

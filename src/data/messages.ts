@@ -2,7 +2,7 @@ import { randomUUID } from 'crypto';
 
 import { Message } from '../types';
 
-const timeUnits: { [key: string]: number } = {
+const timeUnits: Record<string, number> = {
   h: 3600000,
   m: 60000,
   s: 1000,
@@ -15,7 +15,7 @@ export const timeToMilliseconds = (timeStr: string): number => {
   return timeStr.split(' ').reduce((total, part) => {
     const unit = part.slice(-1);
     const value = parseInt(part.slice(0, -1), 10);
-    return total + value * (timeUnits[unit] || 0);
+    return total + value * (timeUnits[unit] ?? 0);
   }, 0);
 };
 

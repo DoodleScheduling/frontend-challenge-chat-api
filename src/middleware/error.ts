@@ -24,12 +24,12 @@ const errorHandler = (
     name: err.name,
     statusCode,
     requestPath: req.path,
-    requestBody: req.body,
     requestQuery: req.query,
   });
 
   if (res.headersSent) {
-    return next(err);
+    next(err);
+    return;
   }
 
   res.status(statusCode).json({

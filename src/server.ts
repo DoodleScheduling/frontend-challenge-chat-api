@@ -11,11 +11,13 @@ const startServer = async () => {
 
     const server = app.listen(CONFIG.port, () => {
       console.log('🚀 Server started successfully');
-      console.log(`📡 Server running on port ${CONFIG.port}`);
+      console.log(`📡 Server running on port ${CONFIG.port.toString()}`);
       console.log(
-        `📚 API Documentation: http://localhost:${CONFIG.port}${CONFIG.api.route}/docs`
+        `📚 API Documentation: http://localhost:${CONFIG.port.toString()}${CONFIG.api.route}/docs`
       );
-      console.log(`💚 Health check: http://localhost:${CONFIG.port}/health`);
+      console.log(
+        `💚 Health check: http://localhost:${CONFIG.port.toString()}/health`
+      );
     });
 
     setupGracefulShutdown(server);
@@ -27,6 +29,6 @@ const startServer = async () => {
   }
 };
 
-(async () => {
+void (async () => {
   await startServer();
 })();

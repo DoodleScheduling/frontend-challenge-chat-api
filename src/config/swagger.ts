@@ -10,7 +10,7 @@ const SWAGGER_DOCUMENT = {
   },
   servers: [
     {
-      url: `${CONFIG.api.url}:${CONFIG.port}${CONFIG.api.route}`,
+      url: `${CONFIG.api.url}:${CONFIG.port.toString()}${CONFIG.api.route}`,
       description: `${CONFIG.env} server`,
     },
   ],
@@ -195,7 +195,7 @@ const SWAGGER_DOCUMENT = {
                   error: 'Invalid message format',
                   details: [
                     {
-                      msg: `Message cannot exceed ${VALIDATION_CONFIG.message.maxLength} characters`,
+                      msg: `Message cannot exceed ${VALIDATION_CONFIG.message.maxLength.toString()} characters`,
                       param: 'message',
                       location: 'body',
                     },

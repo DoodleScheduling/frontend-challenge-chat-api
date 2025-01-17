@@ -34,13 +34,14 @@ const messagesService = {
     const query: FilterQuery<MessageInternal> = {};
 
     if (since || before) {
-      query.createdAt = {};
+      const createdAtQuery: { $gt?: Date; $lt?: Date } = {};
       if (since) {
-        query.createdAt.$gt = new Date(since);
+        createdAtQuery.$gt = new Date(since);
       }
       if (before) {
-        query.createdAt.$lt = new Date(before);
+        createdAtQuery.$lt = new Date(before);
       }
+      query.createdAt = createdAtQuery;
     }
 
     return MessageModel.find(query)

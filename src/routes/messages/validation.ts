@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { z } from 'zod';
 
-const validateBody = (schema: z.ZodSchema) => {
+const validateBody = <T>(schema: z.ZodSchema<T>) => {
   return (req: Request, _res: Response, next: NextFunction) => {
     try {
       req.body = schema.parse(req.body);
@@ -15,17 +15,20 @@ const validateBody = (schema: z.ZodSchema) => {
             message: err.message,
           })),
         };
-        return next(formattedError);
+        next(formattedError);
+        return;
       }
 
-      return next(error);
+      next(error);
+      return;
     }
   };
 };
 
-const validateQuery = (schema: z.ZodSchema) => {
+const validateQuery = <T>(schema: z.ZodSchema<T>) => {
   return (req: Request, _res: Response, next: NextFunction) => {
     try {
+      // @ts-expect-error - already validated via zod
       req.query = schema.parse(req.query);
       next();
     } catch (error) {
@@ -37,10 +40,12 @@ const validateQuery = (schema: z.ZodSchema) => {
             message: err.message,
           })),
         };
-        return next(formattedError);
+        next(formattedError);
+        return;
       }
 
-      return next(error);
+      next(error);
+      return;
     }
   };
 };

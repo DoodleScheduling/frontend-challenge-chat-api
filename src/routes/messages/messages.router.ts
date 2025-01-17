@@ -6,16 +6,14 @@ import { messagesController } from './messages.controller';
 
 const messagesRouter = Router();
 
-messagesRouter.post(
-  '/',
-  validateBody(createMessageSchema),
-  messagesController.createMessage
+messagesRouter.post('/', validateBody(createMessageSchema), (req, res, next) =>
+  messagesController.createMessage(req, res, next)
 );
 
 messagesRouter.get(
   '/',
   validateQuery(getMessagesQuerySchema),
-  messagesController.getMessages
+  (req, res, next) => messagesController.getMessages(req, res, next)
 );
 
 export { messagesRouter };
