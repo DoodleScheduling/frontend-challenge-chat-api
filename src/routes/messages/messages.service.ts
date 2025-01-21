@@ -22,13 +22,11 @@ const messagesService = {
 
   async getMessages({
     sortOrder = -1,
-    shouldReverse = false,
     limit,
     after,
     before,
   }: {
     sortOrder: 1 | -1;
-    shouldReverse: boolean;
     limit: number;
     after: string | undefined;
     before: string | undefined;
@@ -52,7 +50,8 @@ const messagesService = {
       .lean()
       .then((messages) => messages.map(transformMessage));
 
-    if (shouldReverse) {
+    // Reverse sorting if before query is present to get messages in chronological order
+    if (before) {
       messages = messages.reverse();
     }
 
