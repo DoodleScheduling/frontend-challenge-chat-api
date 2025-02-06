@@ -20,7 +20,7 @@
   "type": "module",
   "main": "dist/server.js",
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "tsc -p tsconfig.json",
     "clean": "rm -rf dist && rm -rf node_modules",
     "dev": "NODE_ENV=development tsx watch src/server.ts",
     "lint": "eslint .",
@@ -59,8 +59,5 @@
   "engines": {
     "node": ">=20",
     "npm": ">=10"
-  },
-  "exports": {
-    ".": "./dist/server.js"
   }
 }
