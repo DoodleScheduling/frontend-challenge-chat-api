@@ -3,8 +3,8 @@ import cors from 'cors';
 import compression from 'compression';
 import helmet from 'helmet';
 
-import { CONFIG } from '../config';
-import { timeoutHandler } from '../middleware/timeout';
+import { CONFIG } from '../config/index.js';
+import { timeoutHandler } from '../middleware/timeout.js';
 
 const setupMiddleware = (app: Application): void => {
   app.use(helmet());

@@ -1,5 +1,5 @@
-import { CONFIG } from './';
-import { VALIDATION_CONFIG } from './validation';
+import { CONFIG } from './constants.js';
+import { VALIDATION_CONFIG } from './validation.js';
 
 const SWAGGER_DOCUMENT = {
   openapi: '3.0.0',

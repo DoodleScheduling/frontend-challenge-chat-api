@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 
-import { Message, CreateMessageBody, GetMessagesQuery } from '../../types';
-import { CONFIG } from '../../config';
-import { messagesService } from './messages.service';
+import { Message, CreateMessageBody, GetMessagesQuery } from '../../types/index.js';
+import { CONFIG } from '../../config/index.js';
+import { messagesService } from './messages.service.js';
 
 const messagesController = {
   async createMessage(

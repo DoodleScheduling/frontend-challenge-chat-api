@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 
-import { CONFIG } from '../config';
+import { CONFIG } from '../config/index.js';
 
 export const authMiddleware: RequestHandler = (
   req: Request,

@@ -17,12 +17,12 @@
     "name": "Doodle AG",
     "url": "https://doodle.com"
   },
-  "type": "commonjs",
+  "type": "module",
   "main": "dist/server.js",
   "scripts": {
-    "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
+    "build": "tsc -p tsconfig.build.json",
     "clean": "rm -rf dist && rm -rf node_modules",
-    "dev": "nodemon -r tsconfig-paths/register src/server.ts",
+    "dev": "NODE_ENV=development tsx watch src/server.ts",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "prettier": "prettier --write \"src/**/*.ts\"",
@@ -50,18 +50,17 @@
     "@types/express": "5.0.0",
     "@types/node": "22.13.1",
     "@types/swagger-ui-express": "4.1.7",
-    "concurrently": "9.1.2",
     "eslint": "9.19.0",
-    "nodemon": "3.1.9",
     "prettier": "3.4.2",
-    "ts-node": "10.9.2",
-    "tsc-alias": "1.8.10",
-    "tsconfig-paths": "4.2.0",
+    "tsx": "4.19.2",
     "typescript": "5.7.3",
     "typescript-eslint": "8.23.0"
   },
   "engines": {
     "node": ">=20",
     "npm": ">=10"
+  },
+  "exports": {
+    ".": "./dist/server.js"
   }
 }

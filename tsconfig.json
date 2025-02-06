@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es2022",
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "target": "esnext",
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
     "baseUrl": "./",
     "outDir": "./dist",
     "esModuleInterop": true,

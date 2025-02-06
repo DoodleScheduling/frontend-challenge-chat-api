@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import { z } from 'zod';
 
-import { DEFAULT_CONFIG } from './env.default';
+import { DEFAULT_CONFIG } from './env.default.js';
 
 const envSchema = z.object({
   // API Configuration

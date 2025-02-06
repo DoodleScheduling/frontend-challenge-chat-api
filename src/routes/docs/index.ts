@@ -1,1 +1,1 @@
-export { docsRouter } from './docs.router';
+export { docsRouter } from './docs.router.js';

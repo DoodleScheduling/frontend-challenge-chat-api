@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { VALIDATION_CONFIG } from '../config';
+import { VALIDATION_CONFIG } from '../config/index.js';
 
 const authorSchema = z
   .string()

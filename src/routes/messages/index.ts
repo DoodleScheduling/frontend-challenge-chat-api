@@ -1,1 +1,1 @@
-export { messagesRouter } from './messages.router';
+export { messagesRouter } from './messages.router.js';

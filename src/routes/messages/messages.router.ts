@@ -1,8 +1,8 @@
 import { Router } from 'express';
 
-import { validateBody, validateQuery } from './validation';
-import { createMessageSchema, getMessagesQuerySchema } from '../../schemas';
-import { messagesController } from './messages.controller';
+import { validateBody, validateQuery } from './validation.js';
+import { createMessageSchema, getMessagesQuerySchema } from '../../schemas/index.js';
+import { messagesController } from './messages.controller.js';
 
 const messagesRouter = Router();
 

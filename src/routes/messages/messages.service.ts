@@ -1,7 +1,7 @@
 import { FilterQuery } from 'mongoose';
 
-import { Message, MessageInternal, CreateMessageBody } from '../../types';
-import { MessageModel } from '../../models/message.model';
+import { Message, MessageInternal, CreateMessageBody } from '../../types/index.js';
+import { MessageModel } from '../../models/message.model.js';
 
 const transformMessage = (message: MessageInternal): Message => ({
   _id: message._id,

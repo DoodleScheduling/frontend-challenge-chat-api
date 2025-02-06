@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
-import { CONFIG } from '../config';
-import { seedDatabase } from './seed';
+import { CONFIG } from '../config/index.js';
+import { seedDatabase } from './seed.js';
 
 export const connectDB = async (): Promise<void> => {
   try {

@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
-import { ApiError } from '../types';
-import { CONFIG } from '../config';
+import { ApiError } from '../types/index.js';
+import { CONFIG } from '../config/index.js';
 
 const timeoutHandler = (
   _req: Request,

@@ -1,5 +1,5 @@
-import { MessageModel } from '../models/message.model';
-import { INITIAL_MESSAGES } from '../data/messages';
+import { MessageModel } from '../models/message.model.js';
+import { INITIAL_MESSAGES } from '../data/messages.js';
 
 export const seedDatabase = async (): Promise<void> => {
   try {

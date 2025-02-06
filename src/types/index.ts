@@ -6,7 +6,7 @@ import {
   createMessageSchema,
   getMessagesQuerySchema,
   apiErrorSchema,
-} from '../schemas';
+} from '../schemas/index.js';
 
 type Message = z.infer<typeof messageSchema>;
 type MessageInternal = z.infer<typeof messageInternalSchema>;

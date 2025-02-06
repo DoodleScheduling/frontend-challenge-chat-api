@@ -1,7 +1,7 @@
-import { createApp } from './app';
-import { CONFIG } from './config';
-import { connectDB } from './db';
-import { setupGracefulShutdown } from './server/shutdown';
+import { createApp } from './app/index.js';
+import { CONFIG } from './config/index.js';
+import { connectDB } from './db/index.js';
+import { setupGracefulShutdown } from './server/shutdown.js';
 
 const startServer = async () => {
   const app = createApp();

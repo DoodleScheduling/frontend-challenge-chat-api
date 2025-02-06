@@ -1,8 +1,8 @@
 import express, { Application } from 'express';
 
-import { setupMiddleware } from './middleware';
-import { setupRoutes } from './routes';
-import { setupErrorHandlers } from './error';
+import { setupMiddleware } from './middleware.js';
+import { setupRoutes } from './routes.js';
+import { setupErrorHandlers } from './error.js';
 
 const createApp = (): Application => {
   const app = express();
