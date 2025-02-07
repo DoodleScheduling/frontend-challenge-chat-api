@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto';
 
-import { Message } from '../types/index.js';
+import { Message } from '../types/types.js';
 
 const timeUnits: Record<string, number> = {
   h: 3600000,

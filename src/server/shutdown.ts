@@ -1,6 +1,6 @@
 import { Server } from 'http';
 
-import { closeDB } from '../db/index.js';
+import { closeDB } from '../db/db.js';
 
 export const setupGracefulShutdown = (server: Server) => {
   const handleShutdown = async (signal: string) => {

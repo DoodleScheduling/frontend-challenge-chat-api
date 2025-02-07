@@ -1,4 +1,4 @@
-import { CONFIG } from './constants.js';
+import { CONFIG } from './config.js';
 import { VALIDATION_CONFIG } from './validation.js';
 
 const SWAGGER_DOCUMENT = {

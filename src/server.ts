@@ -1,6 +1,6 @@
-import { createApp } from './app/index.js';
-import { CONFIG } from './config/index.js';
-import { connectDB } from './db/index.js';
+import { createApp } from './app/create-app.js';
+import { CONFIG } from './config/config.js';
+import { connectDB } from './db/db.js';
 import { setupGracefulShutdown } from './server/shutdown.js';
 
 const startServer = async () => {

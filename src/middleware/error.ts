@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { ApiError } from '../types/index.js';
+
+import { ApiError } from '../types/types.js';
 
 const notFoundHandler = (_req: Request, res: Response) => {
   res.status(404).json({

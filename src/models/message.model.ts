@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 import crypto from 'crypto';
 
-import { MessageInternal } from '../types/index.js';
+import { MessageInternal } from '../types/types.js';
 
 const MessageSchema = new Schema<MessageInternal>(
   {

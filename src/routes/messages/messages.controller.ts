@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
-import { Message, CreateMessageBody, GetMessagesQuery } from '../../types/index.js';
-import { CONFIG } from '../../config/index.js';
+import { Message, CreateMessageBody, GetMessagesQuery } from '../../types/types.js';
+import { CONFIG } from '../../config/config.js';
 import { messagesService } from './messages.service.js';
 
 const messagesController = {
