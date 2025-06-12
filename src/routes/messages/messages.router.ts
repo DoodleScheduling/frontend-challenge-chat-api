@@ -1,7 +1,10 @@
 import { Router } from 'express';
 
 import { validateBody, validateQuery } from './validation.js';
-import { createMessageSchema, getMessagesQuerySchema } from '../../schemas/schemas.js';
+import {
+  createMessageSchema,
+  getMessagesQuerySchema,
+} from '../../schemas/schemas.js';
 import { messagesController } from './messages.controller.js';
 
 const messagesRouter = Router();
