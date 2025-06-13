@@ -74,7 +74,7 @@ const getMessagesQuerySchema = z
 const apiErrorSchema = z.object({
   message: z.string(),
   statusCode: z.number(),
-  name: z.string(),
+  name: z.string().optional(),
   stack: z.string().optional(),
 });
 

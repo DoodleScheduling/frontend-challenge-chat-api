@@ -21,11 +21,11 @@ const errorHandler = (
 
   console.error({
     message: err.message,
-    stack: err.stack,
-    name: err.name,
     statusCode,
     requestPath: req.path,
     requestQuery: req.query,
+    ...(err.stack && { stack: err.stack }),
+    ...(err.name && { name: err.name }),
   });
 
   if (res.headersSent) {
