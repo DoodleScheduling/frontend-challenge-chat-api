@@ -23,6 +23,124 @@ const SWAGGER_DOCUMENT = {
         description: `Enter the token value, e.g. ${CONFIG.auth.token}`,
       },
     },
+    schemas: {
+      Message: {
+        type: 'object',
+        required: ['_id', 'message', 'author', 'createdAt'],
+        properties: {
+          _id: {
+            type: 'string',
+            description: 'Unique identifier for the message',
+            example: '123e4567-e89b-12d3-a456-426614174000',
+          },
+          message: {
+            type: 'string',
+            description: 'The content of the chat message',
+            minLength: VALIDATION_CONFIG.message.minLength,
+            maxLength: VALIDATION_CONFIG.message.maxLength,
+            example: 'Hello everyone!',
+          },
+          author: {
+            type: 'string',
+            description:
+              'Name of the message author. Can contain letters, numbers, spaces, hyphens, and underscores only.',
+            minLength: VALIDATION_CONFIG.author.minLength,
+            maxLength: VALIDATION_CONFIG.author.maxLength,
+            pattern: '^[a-zA-Z0-9\\s-_]+$',
+            example: 'John Smith',
+          },
+          createdAt: {
+            type: 'string',
+            format: 'date-time',
+            description:
+              'ISO 8601 timestamp indicating when the message was created',
+            example: '2024-01-12T10:30:00Z',
+          },
+        },
+      },
+      CreateMessageRequest: {
+        type: 'object',
+        required: ['message', 'author'],
+        properties: {
+          message: {
+            type: 'string',
+            description: 'The content of the chat message to be created',
+            minLength: VALIDATION_CONFIG.message.minLength,
+            maxLength: VALIDATION_CONFIG.message.maxLength,
+            example: 'Hello everyone!',
+          },
+          author: {
+            type: 'string',
+            description:
+              'Name of the message author. Must be between 1-50 characters and can only contain letters, numbers, spaces, hyphens, and underscores.',
+            minLength: VALIDATION_CONFIG.author.minLength,
+            maxLength: VALIDATION_CONFIG.author.maxLength,
+            pattern: '^[a-zA-Z0-9\\s-_]+$',
+            example: 'John Smith',
+          },
+        },
+      },
+      ErrorResponse: {
+        type: 'object',
+        properties: {
+          error: {
+            type: 'string',
+            description: 'Brief description of the error that occurred',
+            example: 'Invalid message format',
+          },
+          details: {
+            type: 'array',
+            description:
+              'Detailed information about validation errors or specific issues',
+            items: {
+              type: 'object',
+              properties: {
+                msg: {
+                  type: 'string',
+                  description:
+                    'Specific error message explaining what went wrong',
+                  example: 'Message cannot exceed 500 characters',
+                },
+                param: {
+                  type: 'string',
+                  description: 'The parameter or field that caused the error',
+                  example: 'message',
+                },
+                location: {
+                  type: 'string',
+                  description:
+                    'Where the error occurred (body, query, params, etc.)',
+                  example: 'body',
+                },
+              },
+            },
+          },
+        },
+      },
+      InternalServerError: {
+        type: 'object',
+        properties: {
+          error: {
+            type: 'object',
+            description: 'Internal server error details',
+            properties: {
+              message: {
+                type: 'string',
+                description:
+                  'Error message describing the internal server error',
+                example: 'Internal Server Error',
+              },
+              createdAt: {
+                type: 'string',
+                format: 'date-time',
+                description: 'ISO 8601 timestamp when the error occurred',
+                example: '2024-01-12T10:30:00Z',
+              },
+            },
+          },
+        },
+      },
+    },
   },
   security: [
     {
@@ -40,6 +158,8 @@ const SWAGGER_DOCUMENT = {
       get: {
         tags: ['Messages'],
         summary: 'Get chat messages',
+        description:
+          'Retrieve a list of chat messages with optional filtering by time range and pagination support.',
         security: [
           {
             bearerAuth: [],
@@ -52,10 +172,10 @@ const SWAGGER_DOCUMENT = {
             schema: {
               type: 'string',
               format: 'date-time',
-              description:
-                'ISO 8601 timestamp to retrieve messages after this time',
             },
             required: false,
+            description:
+              'ISO 8601 timestamp to retrieve messages created after this time. Cannot be used together with "before" parameter.',
             example: '2024-01-12T10:30:00Z',
           },
           {
@@ -64,10 +184,11 @@ const SWAGGER_DOCUMENT = {
             schema: {
               type: 'integer',
               minimum: 1,
+              maximum: VALIDATION_CONFIG.message.maxLimit,
               default: CONFIG.api.defaultMessagesLimit,
             },
             required: false,
-            description: 'Max messages to return',
+            description: `Maximum number of messages to return. Must be between 1 and ${VALIDATION_CONFIG.message.maxLimit.toString()}. Defaults to ${CONFIG.api.defaultMessagesLimit.toString()}.`,
           },
           {
             in: 'query',
@@ -75,18 +196,26 @@ const SWAGGER_DOCUMENT = {
             schema: {
               type: 'string',
               format: 'date-time',
-              description:
-                'ISO 8601 timestamp to retrieve messages before this time',
             },
             required: false,
-            example: '',
+            description:
+              'ISO 8601 timestamp to retrieve messages created before this time. Cannot be used together with "after" parameter.',
+            example: '2024-01-12T15:45:00Z',
           },
         ],
         responses: {
           '200': {
-            description: 'List of messages',
+            description: 'Successfully retrieved list of messages',
             content: {
               'application/json': {
+                schema: {
+                  type: 'array',
+                  description:
+                    'Array of chat messages matching the query criteria',
+                  items: {
+                    $ref: '#/components/schemas/Message',
+                  },
+                },
                 example: [
                   {
                     _id: '123e4567-e89b-12d3-a456-426614174000',
@@ -99,9 +228,12 @@ const SWAGGER_DOCUMENT = {
             },
           },
           '400': {
-            description: 'Invalid query parameters',
+            description: 'Bad request due to invalid query parameters',
             content: {
               'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/ErrorResponse',
+                },
                 example: {
                   error: 'Invalid query parameters',
                   details: [
@@ -126,9 +258,13 @@ const SWAGGER_DOCUMENT = {
             },
           },
           '500': {
-            description: 'Internal Server Error',
+            description:
+              'Internal server error occurred while processing the request',
             content: {
               'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/InternalServerError',
+                },
                 example: {
                   error: {
                     message: 'Internal Server Error',
@@ -143,6 +279,8 @@ const SWAGGER_DOCUMENT = {
       post: {
         tags: ['Messages'],
         summary: 'Create new message',
+        description:
+          'Create a new chat message with the specified content and author information.',
         security: [
           {
             bearerAuth: [],
@@ -150,35 +288,27 @@ const SWAGGER_DOCUMENT = {
         ],
         requestBody: {
           required: true,
+          description: 'Message data to create a new chat message',
           content: {
             'application/json': {
               schema: {
-                type: 'object',
-                required: ['message', 'author'],
-                properties: {
-                  message: {
-                    type: 'string',
-                    minLength: VALIDATION_CONFIG.message.minLength,
-                    maxLength: VALIDATION_CONFIG.message.maxLength,
-                    example: 'Hello everyone!',
-                  },
-                  author: {
-                    type: 'string',
-                    minLength: VALIDATION_CONFIG.author.minLength,
-                    maxLength: VALIDATION_CONFIG.author.maxLength,
-                    pattern: '^[a-zA-Z0-9\\s-_]+$',
-                    example: 'John Smith',
-                  },
-                },
+                $ref: '#/components/schemas/CreateMessageRequest',
+              },
+              example: {
+                message: 'Hello everyone!',
+                author: 'John Smith',
               },
             },
           },
         },
         responses: {
           '201': {
-            description: 'Message created',
+            description: 'Message successfully created',
             content: {
               'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Message',
+                },
                 example: {
                   _id: '123e4567-e89b-12d3-a456-426614174000',
                   message: 'Hello everyone!',
@@ -189,9 +319,13 @@ const SWAGGER_DOCUMENT = {
             },
           },
           '400': {
-            description: 'Invalid message format',
+            description:
+              'Bad request due to invalid message format or validation errors',
             content: {
               'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/ErrorResponse',
+                },
                 example: {
                   error: 'Invalid message format',
                   details: [
@@ -211,9 +345,13 @@ const SWAGGER_DOCUMENT = {
             },
           },
           '500': {
-            description: 'Internal Server Error',
+            description:
+              'Internal server error occurred while creating the message',
             content: {
               'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/InternalServerError',
+                },
                 example: {
                   error: {
                     message: 'Internal Server Error',
