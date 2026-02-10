@@ -54,8 +54,8 @@ const messagesService = {
       .lean()
       .then((messages) => messages.map(transformMessage));
 
-    // Reverse sorting if before query is present to get messages in chronological order
-    if (before) {
+    // Reverse desc-sorted results to return in chronological order (oldest → newest)
+    if (!after) {
       messages = messages.reverse();
     }
 

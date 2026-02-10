@@ -30,9 +30,8 @@ const messagesController = {
   ): Promise<void> {
     try {
       const { limit, after, before } = req.query;
-      // Default to ascending (oldest first) when no pagination params
-      // Use ascending with 'after' to get newer messages, descending with 'before' to get older messages
-      const sortOrder = after ? 1 : before ? -1 : 1;
+      // Ascending with 'after' to get newer messages; descending otherwise to get most recent first
+      const sortOrder = after ? 1 : -1;
       const limitMessages = limit ?? CONFIG.api.defaultMessagesLimit;
 
       const messages = await messagesService.getMessages({
